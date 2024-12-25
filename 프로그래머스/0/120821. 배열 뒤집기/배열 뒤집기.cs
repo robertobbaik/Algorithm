@@ -18,12 +18,10 @@ public class Solution {
             else
             {
                  temp = num_list[i];
-            answer[i] = num_list[swapIdx];
-            answer[swapIdx] = temp;
+                answer[i] = num_list[swapIdx];
+                answer[swapIdx] = temp;
             }
-           
-        }
-        
+        } 
         return answer;
     }
 }
