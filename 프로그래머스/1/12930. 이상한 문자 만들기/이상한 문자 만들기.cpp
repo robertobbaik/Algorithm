@@ -12,19 +12,17 @@ string solution(string s) {
     {
         char temp = *iter;
         
-        if(isStart)
+        if(*iter == ' ')
         {
-            temp = toupper(temp);
-        }else{
-            temp = tolower(temp);
+            isStart = true;
+            answer += temp;
+            continue;
         }
+            
+        temp = isStart ? toupper(temp) : tolower(temp);
         
         answer += temp;
-        
         isStart = !isStart;
-        if(*iter == ' ')
-            isStart = true;
-        
     }
     return answer;
 }
