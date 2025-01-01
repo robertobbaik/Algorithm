@@ -23,15 +23,8 @@ int solution(vector<vector<int>> sizes) {
             swap(sizes[i][0], sizes[i][1]);
         }
 
-        if(sizes[i][0] > width)
-        {
-            width = sizes[i][0];
-        }
-
-        if(sizes[i][1] > height)
-        {
-            height = sizes[i][1];
-        }
+        width = max(width, sizes[i][0]);
+        height = max(height, sizes[i][1]);
     }
 
     answer = width * height;
