@@ -1,44 +1,49 @@
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 vector<int> solution(vector<string> keymap, vector<string> targets) {
     vector<int> answer;
+    unordered_map<char, int> u_map;
     
-    for(int i = 0; i < targets.size(); i++)
+    for(int i = 0; i < keymap.size(); ++i)
     {
-        int temp = 0;
-        for(int j = 0; j < targets[i].size(); j++)
+        for(int j = 0; j < keymap[i].size(); ++j)
         {
-            int min = 101;
-            
-            for(int k = 0; k < keymap.size(); k++)
+            char c = keymap[i][j];
+            if(u_map.find(c) == u_map.end() || j + 1 < u_map[c])
             {
-                for(int l = 0; l < keymap[k].size(); l++)
-                {
-                    if(targets[i][j] == keymap[k][l])
-                    {
-                        if(l + 1 < min)
-                        {
-                            min = l + 1;
-                        }
-                    }
-                }
-            }
-            
-            if(min == 101)
-            {
-                temp = -1;
-                break;
-            }
-            else
-            {
-                temp += min;
+                u_map[c] = j + 1;
             }
         }
-        answer.push_back(temp);
     }
+
+    for(string target : targets)
+    {
+        int totalNum = 0;
+        bool isPossible = true;
+        
+        for(char c : target)
+        {
+            if(u_map.find(c) == u_map.end())
+            {
+                isPossible = false;
+                break;
+            }
+            totalNum += u_map[c];
+        }
+        
+        if(isPossible)
+        {
+            answer.push_back(totalNum);
+        }else{
+            answer.push_back(-1);
+        }
+    }
+    
+    
     
     return answer;
 }
