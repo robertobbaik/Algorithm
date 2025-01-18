@@ -1,12 +1,10 @@
 #include <string>
 #include <vector>
-#include <unordered_set>
 
 using namespace std;
 
 string solution(string s, string skip, int index) {
     string answer = "";
-       unordered_set<char> temp(skip.begin(), skip.end());
 
     for (char c : s)
     {
@@ -16,7 +14,7 @@ string solution(string s, string skip, int index) {
         while (step > 0)
         {
             current = current == 'z' ? current = 'a' : current + 1;
-            if (temp.find(current) == temp.end())
+            if (skip.find(current) == string::npos)
             {
                 --step;
             }
