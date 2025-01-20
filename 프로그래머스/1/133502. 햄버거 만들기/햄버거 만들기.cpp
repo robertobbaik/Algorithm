@@ -17,7 +17,10 @@ int solution(vector<int> ingredient) {
         stack[stack.size()-2] == 3 &&
         stack[stack.size()-1] == 1)
         {
-            stack.erase(stack.end() - 4 , stack.end());
+            for(int j = 0; j < 4; ++j)
+            {
+                stack.pop_back();
+            }
             ++answer;
         }
     }
