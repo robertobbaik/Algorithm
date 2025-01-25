@@ -1,55 +1,69 @@
-#include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 vector<int> solution(vector<string> park, vector<string> routes) {
-    int h = park.size();      // 공원의 세로 길이
-    int w = park[0].size();   // 공원의 가로 길이
-    int row = 0, col = 0;     // 시작 지점 좌표
+    vector<int> answer;
+    int column = 0;
+    int row = 0;
 
-    // 시작 지점(S) 찾기
-    for (int i = 0; i < h; ++i) {
-        for (int j = 0; j < w; ++j) {
-            if (park[i][j] == 'S') {
-                row = i;
-                col = j;
+    for (int i = 0; i < park.size(); ++i)
+    {
+        for (int j = 0; j < park[i].size(); ++j)
+        {
+            if (park[i][j] == 'S')
+            {
+                column = i;
+                row = j;
                 break;
             }
         }
     }
 
-    // 명령 처리
-    for (const string& route : routes) {
-        char dir = route[0];               // 방향 (N, S, W, E)
-        int distance = stoi(route.substr(2)); // 거리
+    for (int i = 0; i < routes.size(); i++)
+    {
+        string route = routes[i];
+        char dir = route[0];
+        int distance = route[2] - '0';
 
-        // 이동 가능 여부 확인
-        bool canMove = true;
-        int newRow = row, newCol = col;
-        for (int step = 1; step <= distance; ++step) {
-            if (dir == 'N') newRow = row - step;
-            else if (dir == 'S') newRow = row + step;
-            else if (dir == 'W') newCol = col - step;
-            else if (dir == 'E') newCol = col + step;
-
-            // 범위를 벗어나거나 장애물을 만나면 이동 중단
-            if (newRow < 0 || newRow >= h || newCol < 0 || newCol >= w || park[newRow][newCol] == 'X') {
-                canMove = false;
+        int tempRow = 0;
+        int tempColumn = 0;
+        
+        for (int j = 1; j <= distance; ++j)
+        {
+            switch (dir)
+            {
+            case 'E':
+                ++tempRow;
+                break;
+            case 'W':
+                --tempRow;
+                break;
+            case 'S':
+                ++tempColumn;
+                break;
+            case 'N':
+                --tempColumn;
                 break;
             }
+
+            if (tempColumn + column >= park.size() || tempRow + row >= park[0].size() || tempColumn + column < 0 || tempRow + row < 0 || park[tempColumn + column][tempRow + row] == 'X')
+            {
+                tempColumn = 0;
+                tempRow = 0;
+                break;
+            }
+         
         }
 
-        // 이동 가능하면 위치 업데이트
-        if (canMove) {
-            if (dir == 'N') row -= distance;
-            else if (dir == 'S') row += distance;
-            else if (dir == 'W') col -= distance;
-            else if (dir == 'E') col += distance;
-        }
+        row += tempRow;
+        column += tempColumn;
     }
 
-    // 최종 위치 반환
-    return {row, col};
+    answer.push_back(column);
+    answer.push_back(row);
+    
+
+    return answer;
 }
