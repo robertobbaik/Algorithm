@@ -11,11 +11,6 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
     unordered_map<string, int> reportCount;
     unordered_map<string, set<string>> privatereport;
 
-    for(const string& name : id_list)
-    {
-        reportCount[name] = 0;
-    }
-
     for(const string& plaint : report)
     {
         int blank = plaint.find(' ');
@@ -46,7 +41,7 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
         int reportCount = 0;
         for(const string& temp : privatereport[name])
         {
-            if(reportset.find(temp) != reportset.end())
+            if(reportset.count(temp))
             {
                 ++reportCount;
             }
