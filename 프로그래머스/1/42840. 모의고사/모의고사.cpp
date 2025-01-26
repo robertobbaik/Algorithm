@@ -1,43 +1,43 @@
 #include <string>
 #include <vector>
-
 #include <algorithm>
 
 using namespace std;
 
 vector<int> solution(vector<int> answers) {
     vector<int> answer;
-    vector<int> scores(3, 0);
-    
-    vector<vector<int>> temp = {{1,2,3,4,5}, {2,1,2,3,2,4,2,5}, {3,3,1,1,2,2,4,4,5,5}}; 
-    
-    for(int i = 0; i < answers.size(); i++)
+    vector<int> temp(3, 0);
+
+    vector<int> a = {1, 2, 3, 4, 5};
+    vector<int> b = {2, 1, 2, 3, 2, 4, 2, 5};
+    vector<int> c = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+
+    for (int i = 0; i < answers.size(); i++)
     {
-        if(answers[i] == temp[0][i % 5])
+        if(a[i % a.size()] == answers[i])
         {
-            scores[0]++;
+            ++temp[0];
         }
-        
-        if(answers[i] == temp[1][i % 8])
+
+        if(b[i % b.size()] == answers[i])
         {
-            scores[1]++;
+            ++temp[1];
         }
-        
-        if(answers[i] == temp[2][i % 10])
+
+        if(c[i % c.size()] == answers[i])
         {
-            scores[2]++;
+            ++temp[2];
         }
     }
-    
-    int maxScore = *max_element(scores.begin(), scores.end());
-    
-    for(int i = 0; i < scores.size(); i++)
+
+    int max = *max_element(temp.begin(), temp.end());
+
+    for(int i = 0; i < temp.size(); ++i)
     {
-        if(scores[i] == maxScore)
+        if(temp[i] == max)
         {
             answer.push_back(i + 1);
         }
     }
-        
     return answer;
 }
