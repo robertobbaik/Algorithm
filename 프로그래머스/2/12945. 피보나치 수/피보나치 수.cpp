@@ -15,7 +15,7 @@ int solution(int n) {
 
         for (int i = 2; i <= n; ++i)
         {
-            fibonacci[i] = (fibonacci[i - 2] % m + fibonacci[i - 1] % m) % m;
+            fibonacci[i] = (fibonacci[i - 2]  + fibonacci[i - 1]) % m;
         }
 
         answer = fibonacci[n];
