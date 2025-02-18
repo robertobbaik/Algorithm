@@ -7,6 +7,7 @@ using namespace std;
 int solution(vector<int> numbers, int target)
 {
     int answer = 0;
+
     queue<pair<int, int>> q;
 
     q.push({0, 0});
@@ -18,17 +19,17 @@ int solution(vector<int> numbers, int target)
 
         q.pop();
 
-        if(index == numbers.size())
+        if (index == numbers.size())
         {
-            if(sum == target)
+            if (sum == target)
             {
                 answer++;
             }
         }
         else
         {
-            q.push({sum + numbers[index], index + 1});    
-            q.push({sum - numbers[index], index + 1});   
+            q.push({sum + numbers[index], index + 1});
+            q.push({sum - numbers[index], index + 1});
         }
     }
 
