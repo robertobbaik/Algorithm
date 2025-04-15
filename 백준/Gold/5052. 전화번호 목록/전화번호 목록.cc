@@ -26,10 +26,9 @@ int main(void)
 
         sort(nums.begin(), nums.end());
 
-        for (int i = 0; i < nums.size() -1 ; i++)
+        for (int i = 0; i < nums.size() - 1; i++)
         {
-            if (nums[i + 1].size() >= nums[i].size() &&
-                nums[i + 1].substr(0, nums[i].size()) == nums[i])
+            if (nums[i + 1].size() > nums[i].size() && nums[i + 1].substr(0, nums[i].size()) == nums[i])
             {
                 answer = "NO";
                 break;
