@@ -2,53 +2,63 @@
 #include <vector>
 #include <numeric>
 #include <queue>
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int solution(vector<int> queue1, vector<int> queue2)
 {
-    int answer = -1;
-    long long q1total = accumulate(queue1.begin(), queue1.end(), 0LL);
-    long long q2total = accumulate(queue2.begin(), queue2.end(), 0LL);
-    long long total = q1total + q2total;
-    long long target = total / 2;
-    
-    if (total % 2 != 0) return -1;
-    queue<int> q1;
-    queue<int> q2;
-
-    for(auto n : queue1)
+    long long answer = -2;
+    long long sum1 = accumulate(queue1.begin(), queue1.end(), 0);
+    long long sum2 = accumulate(queue2.begin(), queue2.end(), 0);
+    queue<int> q1, q2;
+    for (int n : queue1)
     {
         q1.push(n);
     }
-    for(auto n : queue2)
+
+    for (int n : queue2)
     {
         q2.push(n);
     }
 
-    int count = 0;
-
-    while(count <= queue1.size() + queue2.size()*2 && q1total != q2total)
+    if((sum1 + sum2) % 2 != 0)
     {
-        if(q1total > q2total)
+        return -1;
+    }
+
+    int total = (sum1 + sum2) / 2;
+
+
+    long long count = 0;
+    long long limit = queue1.size() * 3;
+    while (sum1 != sum2)
+    {
+        count++;
+        if (limit < count)
         {
-            int num = q1.front();
+            return -1;
+        }
+
+        if (sum1 > sum2)
+        {
+            int n = q1.front();
             q1.pop();
-            q2.push(num);
-            q1total -= num;
-            q2total += num;
-        }   
+            q2.push(n);
+            sum1 -= n;
+            sum2 += n;
+        }
         else
         {
-            int num = q2.front();
+            int n = q2.front();
             q2.pop();
-            q1.push(num);
-            q2total -= num;
-            q1total += num;
-        }   
-        count++;
+            q1.push(n);
+            sum2 -= n;
+            sum1 += n;
+        }
     }
-    answer = q1total == q2total ? count : -1;
 
+    answer = count;
     return answer;
 }
