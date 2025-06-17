@@ -1,31 +1,26 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
 int main(void)
 {
-    //freopen("printmax.txt", "r", stdin);
+    //freopen("maxnum.txt", "r", stdin);
+    vector<int> arr(9);
 
-    vector<int> sequence;
-
-    for (int i = 0; i < 9; i++)
+    for(int i = 0; i < 9; i++)
     {
-        int n;
-        cin >> n;
-
-        sequence.push_back(n);
+        cin >> arr[i];
     }
 
-    int max = *max_element(sequence.begin(), sequence.end());
+    auto iter = max_element(arr.begin(), arr.end());
+    int max = *max_element(arr.begin(), arr.end());
 
-    auto it = find(sequence.begin(), sequence.end(), max);
+    int dis = distance(arr.begin(), iter);
 
-    int dis = distance(sequence.begin(), it);
-
-    cout << max << "\n"
-         << dis + 1 << endl;
+    cout << max << endl;
+    cout << dis + 1 << endl;
 
     return 0;
 }
