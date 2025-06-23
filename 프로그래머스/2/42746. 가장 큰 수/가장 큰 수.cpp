@@ -13,24 +13,21 @@ string solution(vector<int> numbers)
 {
     string answer = "";
 
-    vector<string> num_string;
+    vector<string> v;
 
     for(int num : numbers)
     {
-        num_string.push_back(to_string(num));
+        v.push_back(to_string(num));
     }
 
-    sort(num_string.begin(), num_string.end(), compare);
+    sort(v.begin(), v.end(), compare);
 
-    if(num_string[0][0] == '0')
-    {
-        return "0";
-    } 
-
-    for(string s : num_string)
+    for(string s : v)
     {
         answer += s;
     }
+
+    if(answer[0] =='0') return "0";
 
     return answer;
 }
