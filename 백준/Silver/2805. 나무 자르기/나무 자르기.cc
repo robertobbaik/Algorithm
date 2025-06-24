@@ -4,45 +4,40 @@
 
 using namespace std;
 
-bool can(const vector<int>& woods, int num, int target)
-{
-    long long total = 0;
-    for(int i = 0; i < woods.size(); i++)
-    {
-        if(woods[i] > num)
-        {
-            total += (woods[i] - num);
-        }
-    }
-
-    return total >= target;
-}
-
 int main(void)
 {
-    //freopen("wood.txt", "r", stdin);
-    int N;
-    cin >> N;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    //freopen("tree.txt", "r", stdin);
 
-    int need;
-    cin >> need;
-
-    vector<int> woods(N);
+    int N, M;
+    cin >> N >> M;
+    vector<int> tree(N, 0);
 
     for (int i = 0; i < N; i++)
     {
-        cin >> woods[i];
+        cin >> tree[i];
     }
 
     int left = 0;
-    int right = *max_element(woods.begin(), woods.end());
+
+    int right = *max_element(tree.begin(), tree.end());
     int answer = 0;
 
-    while (left <= right)
+    while(left <= right)
     {
         int mid = (left + right) / 2;
+        long long remainder = 0;
 
-        if (can(woods, mid, need))
+        for(int i = 0; i < N; i++)
+        {
+            if(tree[i] > mid)
+            {
+                remainder += tree[i] - mid;
+            }
+        }
+
+        if(remainder >= M)
         {
             answer = mid;
             left = mid + 1;
