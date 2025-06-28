@@ -1,37 +1,43 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <string>
 
 using namespace std;
 
 int main(void)
 {
-    int testcase;
-    cin >> testcase;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    //freopen("fashion.txt", "r", stdin);
 
-    for (int i = 0; i < testcase; i++)
+    int T;
+
+    cin >> T;
+
+    while (T--)
     {
+        int n;
+        cin >> n;
+
         unordered_map<string, int> um;
-        int N;
-        cin >> N;
-        for (int j = 0; j < N; j++)
+
+        for (int i = 0; i < n; i++)
         {
-            string clothes_name, clothes_type;
-            cin >> clothes_name >> clothes_type;
-            um[clothes_type]++;
+            string str1, str2;
+            cin >> str1 >> str2;
+
+            um[str2]++;
         }
 
-        int answer = 1;
-        for (auto& pair : um)
+        int count = 1;
+
+        for (auto m : um)
         {
-            answer *= (pair.second + 1); 
+            count *= (m.second + 1);
         }
 
-        answer -= 1;
-
-        cout << answer << '\n';
+        count -= 1;
+        cout << count << endl;
     }
-
     return 0;
 }
