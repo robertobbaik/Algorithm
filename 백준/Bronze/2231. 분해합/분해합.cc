@@ -1,39 +1,36 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 int main(void)
 {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    //freopen("digitgenerator.txt", "r", stdin);
+
     int N;
     cin >> N;
 
-    int temp = N;
-
-    vector<int> answer;
-
-    while (temp--)
+    for (int i = 1; i < N; i++)
     {
-        int temp2 = temp;
-        int target = 0;
+        int temp = i;
+        int sum = 0;
 
-        while (temp2)
+        while (temp)
         {
-            target += temp2 % 10;
-            temp2 /= 10;
+            sum += temp % 10;
+            temp /= 10;
         }
 
-        if (temp + target == N)
+        if (i + sum == N)
         {
-            answer.push_back(temp);
+            cout << i << endl;
+            return 0;
         }
     }
-    
-    if(answer.size() == 0)
-    {
-        cout << 0 << endl;
-    }
-    else
-    {
-        cout << answer[answer.size()-1] << endl;
-    }
+
+    cout << 0 << endl;
+
+    return 0;
 }
