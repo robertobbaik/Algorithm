@@ -3,46 +3,46 @@
 
 using namespace std;
 
-vector<vector<int>> board;
-
-void compression(int len, int x, int y)
+void quad(const vector<string> &board, int startX, int startY, int size)
 {
-    int start = board[x][y];
-    bool isSame = true;
-    if(len == 1)
+    char start = board[startX][startY];
+    if (size == 1)
     {
         cout << start;
         return;
     }
 
-    for(int i = x; i < x + len; i++)
+    bool isSame = true;
+
+    for (int i = startX; i < startX + size; i++)
     {
-        for(int j = y; j < y + len; j++)
+        for (int j = startY; j < startY + size; j++)
         {
-            if(board[i][j] != start)
+            if (board[i][j] != start)
             {
                 isSame = false;
                 break;
             }
         }
-        if(!isSame)
+
+        if (!isSame)
         {
             break;
         }
     }
 
-    if(isSame)
-    {   
+    if (isSame)
+    {
         cout << start;
     }
     else
     {
-        int half = len / 2;
+        int half = size / 2;
         cout << "(";
-        compression(half, x, y);
-        compression(half, x, y + half);
-        compression(half, x + half, y);
-        compression(half, x + half, y + half);
+        quad(board, startX, startY, half);
+        quad(board, startX, startY + half, half);
+        quad(board, startX + half, startY, half);
+        quad(board, startX + half, startY + half, half);
         cout << ")";
     }
 }
@@ -54,21 +54,16 @@ int main(void)
     //freopen("quadtree.txt", "r", stdin);
 
     int N;
-
     cin >> N;
 
-    board.resize(N, vector<int>(N, 0));
+    vector<string> board(N);
 
-    for(int i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)
     {
-        string str;
-        cin >> str;
-        for(int j = 0; j < N; j++)
-        {
-            board[i][j] = str[j] - '0';
-        }
+        cin >> board[i];
     }
-
-    compression(N, 0, 0);
+    // cout << "(";
+    quad(board, 0, 0, N);
+    // cout << ")";
     return 0;
 }
