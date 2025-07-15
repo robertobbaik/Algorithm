@@ -2,72 +2,68 @@
 #include <vector>
 
 using namespace std;
+int M, N, K;
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
 
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
-
-void dfs(vector<vector<int>> &board, vector<vector<bool>> &visited, int x, int y, int N, int M)
+void dfs(const vector<vector<int>> &board, vector<vector<bool>> &visited, int x, int y)
 {
-    visited[x][y] = true;
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-    for (int i = 0; i < 4; i++)
-    {
-        int nx = dx[i] + x;
-        int ny = dy[i] + y;
-
-        if (nx >= 0 && nx < N && ny >= 0 && ny < M)
-        {
-            if (!visited[nx][ny] && board[nx][ny] == 1)
-            {
-                dfs(board, visited, nx, ny, N, M);
-            }
-        }
-    }
+		if (nx >= 0 && nx < N && ny >= 0 && ny < M)
+		{
+			if (!visited[nx][ny] && board[nx][ny] == 1)
+			{
+				visited[nx][ny] = true;
+				dfs(board, visited, nx, ny);
+			}
+		}
+	}
 }
 
 int main(void)
 {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    //freopen("organic.txt", "r", stdin);
+	int T;
+	cin >> T;
 
-    int T;
+	while (T--)
+	{
+		cin >> M >> N >> K;
 
-    cin >> T;
+		vector<vector<int>> board(N, vector<int>(M, 0));
+		vector<vector<bool>> visited(N, vector<bool>(M, false));
 
-    for (int i = 0; i < T; i++)
-    {
-        int M, N, K;
+		for (int i = 0; i < K; i++)
+		{
+			int X, Y;
+			cin >> X >> Y;
 
-        cin >> M >> N >> K;
+			board[Y][X] = 1;
+		}
 
-        vector<vector<int>> board(N, vector<int>(M, 0));
-        vector<vector<bool>> visited(N, vector<bool>(M, false));
-        for (int j = 0; j < K; j++)
-        {
-            int X, Y;
+		int wormcount = 0;
 
-            cin >> X >> Y;
-            board[Y][X] = 1;
-        }
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < M; j++)
+			{
+				if (board[i][j] == 1 && !visited[i][j])
+				{
+					visited[i][j] = true;
+					dfs(board, visited, i, j);
+					wormcount++;
+				}
+			}
+		}
 
-        int count = 0;
+		cout << wormcount << endl;
+	}
 
-        for (int j = 0; j < N; j++)
-        {
-            for (int k = 0; k < M; k++)
-            {
-                if (board[j][k] == 1 && !visited[j][k])
-                {
-                    count++;
-                    dfs(board, visited, j, k, N, M);
-                }
-            }
-        }
-
-        cout << count << endl;
-    }
-
-    return 0;
+	return 0;
 }
