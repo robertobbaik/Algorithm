@@ -1,52 +1,50 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <climits>
-
+#include <algorithm>
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("DeliciousFood.txt", "r", stdin);
-    vector<pair<int, int>> flavor;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    int N;
+	int N;
+	cin >> N;
 
-    cin >> N;
+	vector<pair<long long, long long>> vp;
 
-    for (int i = 0; i < N; i++)
-    {
-        int S, B;
+	for (int i = 0; i < N; i++)
+	{
+		long long S, B;
+		cin >> S >> B;
 
-        cin >> S >> B;
-        pair<int, int> p = {S, B};
+		vp.push_back(make_pair(S, B));
+	}
 
-        flavor.push_back(p);
-    }
+	int min_gap = INT_MAX;
 
-    int min_num = INT_MAX;
+	for (int mask = 0; mask < (1 << N); mask++)
+	{
+		int sum_s = 1;
+		int sum_b = 0;
+		for (int i = 0; i < N; i++)
+		{
+			if (mask & (1 << i))
+			{
+				auto [S, B] = vp[i];
+				sum_s *= S;
+				sum_b += B;
+			}
+		}
+		if (sum_s != 1 && sum_b != 0)
+		{
 
-    for (int mask = 0; mask < (1 << N); mask++)
-    {
-        int s = 1;
-        int b = 0;
-        for (int i = 0; i < N; i++)
-        {
-            if (mask & (1 << i))
-            {
-                s *= flavor[i].first;
-                b += flavor[i].second;
-            }
-        }
+			min_gap = min(min_gap, abs(sum_s - sum_b));
+		}
+	}
 
-        if (s != 1 && b != 0)
-        {
-            int gap = abs(s - b);
-            min_num = min(gap, min_num);
-        }
-    }
+	cout << min_gap << endl;
 
-    cout << min_num << endl;
-
-    return 0;
+	return 0;
 }
