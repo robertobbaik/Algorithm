@@ -1,86 +1,65 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
-#include <tuple>
 #include <numeric>
 
 using namespace std;
 
-int main(void)
+const int INF = 1e9;
+
+int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    //freopen("kevinbacon.txt", "r", stdin);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    int N, M;
+	int N, M;
+	cin >> N >> M;
 
-    cin >> N >> M;
+	vector<vector<int>> distance(N + 1, vector<int>(N + 1, INF));
 
-    vector<vector<int>> connection(N + 1);
-    vector<vector<int>> count(N + 1, vector<int>(N + 1, 0));
+	for (int i = 1; i < N + 1; i++)
+	{
+		distance[i][i] = 0;
+	}
 
-    for (int i = 0; i < M; i++)
-    {
-        int A, B;
-        cin >> A >> B;
-        connection[A].push_back(B);
-        connection[B].push_back(A);
-    }
+	for (int i = 0; i < M; i++)
+	{
+		int A, B;
+		cin >> A >> B;
 
-    for (int i = 1; i < N + 1; i++)
-    {
-        for (int j = 1; j < N + 1; j++)
-        {
-            if (i == j)
-                continue;
-            queue<tuple<int, int, int>> q;
-            vector<bool> visited(N + 1, false);
+		distance[A][B] = 1;
+		distance[B][A] = 1;
+	}
 
-            q.push({j, 0, i});
-            visited[i] = true;
+	for (int k = 1; k < N + 1; k++)
+	{
+		for (int i = 1; i < N + 1; i++)
+		{
+			for (int j = 1; j < N + 1; j++)
+			{
+				if(distance[i][k] != INF && distance[k][j] != INF)
+				{
+					distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j]);
+				}
+			}
+		}
+	}
 
-            while (!q.empty())
-            {
-                auto [target, depth, next] = q.front();
-                q.pop();
+	int prev_sum = INF;
 
-                if (target == next)
-                {
-                    count[i][target] = depth;
-                    break;
-                }
+	int answer = INF;
+	
+	for(int i = 1; i < N + 1; i++)
+	{
+		int sum = accumulate(distance[i].begin() + 1, distance[i].end(), 0);
+		if(sum < prev_sum)
+		{
+			answer = i;
+			prev_sum = sum;
+		}
+	}
 
-                for (int k = 0; k < connection[next].size(); k++)
-                {
-                    if (!visited[connection[next][k]])
-                    {
-                        q.push({target, depth + 1, connection[next][k]});
-                        visited[connection[next][k]] = true;
-                    }
-                }
-            }
-        }
-    }
+	cout << answer << endl;
 
-    vector<int> result;
-
-    for (int i = 1; i < N + 1; i++)
-    {
-        int sum = accumulate(count[i].begin(), count[i].end(), 0);
-        result.push_back(sum);
-    }
-
-    int min = *min_element(result.begin(), result.end());
-
-    for(int i = 0; i < N; i++)
-    {
-        if(result[i] == min)
-        {
-            cout << i + 1 << endl;
-            break;
-        }
-    }
-
-    return 0;
+	return 0;
 }
