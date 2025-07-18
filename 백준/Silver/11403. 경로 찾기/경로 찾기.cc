@@ -1,70 +1,46 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-void dfs(const vector<vector<int>> &graph, vector<int>& v, vector<bool> &visited, int node)
+int main()
 {
-    v[node] = 1;
-    visited[node] = true;
-    for (int i = 0; i < graph[node].size(); i++)
-    {
-        if (!visited[graph[node][i]])
-        {
-            dfs(graph, v, visited, graph[node][i]);
-        }
-    }
-}
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-int main(void)
-{
-    //freopen("pathfind.txt", "r", stdin);
+	int N;
+	cin >> N;
 
-    int N;
+	vector<vector<int>> graph(N, vector<int>(N, 0));
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			cin >> graph[i][j];
+		}
+	}
 
-    cin >> N;
+	for (int k = 0; k < N; k++)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				if(graph[i][k] != 0 && graph[k][j] != 0)
+				{
+					graph[i][j] = 1;
+				}
+			}
+		}
+	}
 
-    vector<vector<int>> graph(N);
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			cout << graph[i][j] << " ";
+		}
+		cout << "\n";
+	}
 
-    for (int i = 0; i < N; i++)
-    {
-        vector<int> temp;
-        for (int j = 0; j < N; j++)
-        {
-            int num;
-            cin >> num;
-            if (num == 1)
-            {
-                temp.push_back(j);
-            }
-        }
-        graph[i] = temp;
-    }
-
-    vector<vector<int>> result;
-
-    for (int i = 0; i < graph.size(); i++)
-    {
-        vector<int> temp(N, 0);
-        vector<bool> visited(N, false);
-        for (int j = 0; j < graph[i].size(); j++)
-        {
-            if (!visited[i])
-            {
-                dfs(graph, temp, visited, graph[i][j]);
-            }
-        }
-        result.push_back(temp);
-    }
-
-    for (const auto &v : result)
-    {
-        for (int n : v)
-        {
-            cout << n << " ";
-        }
-        cout << endl;
-    }
-
-    return 0;
+	return 0;
 }
