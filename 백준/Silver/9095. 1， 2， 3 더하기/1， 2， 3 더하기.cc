@@ -3,41 +3,32 @@
 
 using namespace std;
 
-void dfs(int sum, int &count, int target)
+int main()
 {
-    if (sum == target)
-    {
-        count++;
-        return;
-    }
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-    for (int i = 1; i < 4; i++)
-    {
-        if (sum + i <= target)
-        {
-            dfs(sum + i, count, target);
-        }
-    }
-}
+	int T;
+	cin >> T;
 
-int main(void)
-{
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    //freopen("adding123.txt", "r", stdin);
+	int dp[12];
 
-    int T;
-    cin >> T;
+	dp[0] = 0;
+	dp[1] = 1;
+	dp[2] = 2;
+	dp[3] = 4;
 
-    while (T--)
-    {
-        int target;
-        cin >> target;
+	for (int i = 4; i <= 11; i++)
+	{
+		dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+	}
 
-        int count = 0;
+	while(T--)
+	{
+		int n;
+		cin >> n;
+		cout << dp[n] << '\n';
+	}
 
-        dfs(0, count, target);
-        cout << count << "\n";
-    }
-    return 0;
+	return 0;
 }
