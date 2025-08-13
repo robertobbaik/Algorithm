@@ -1,51 +1,36 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <climits>
 
 using namespace std;
 
-int N;
-
-int calc(vector<int> &a, vector<int> &b)
-{
-	int result = 0;
-
-	for (int i = 0; i < N; i++)
-	{
-		int sum = a[i] * b[i];
-		result += sum;
-	}
-
-	return result;
-}
-
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-
+	int N;
 	cin >> N;
 
-	vector<int> A(N);
-	vector<int> B(N);
+	vector<int> arr1(N);
+	vector<int> arr2(N);
 
 	for (int i = 0; i < N; i++)
 	{
-		cin >> A[i];
+		cin >> arr1[i];
 	}
 
 	for (int i = 0; i < N; i++)
 	{
-		cin >> B[i];
+		cin >> arr2[i];
 	}
 
-	int min_sum = INT_MAX;
-	sort(A.begin(), A.end());
+	sort(arr1.begin(), arr1.end());
+	sort(arr2.rbegin(), arr2.rend());
 
-	sort(B.rbegin(), B.rend());
+	int sum = 0;
 
-	int sum = calc(A, B);
+	for (int i = 0; i < N; i++)
+	{
+		sum += arr1[i] * arr2[i];
+	}
 
 	cout << sum << endl;
 
