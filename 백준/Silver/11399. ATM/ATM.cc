@@ -2,44 +2,34 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#include <climits> 
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    //freopen("ATM.txt", "r", stdin);
+	int N;
+	cin >> N;
 
-    int N;
-    cin >> N;
+	vector<int> arr(N);
 
-    vector<int> time(N);
+	for(int i = 0; i < N; i++)
+	{
+		cin >> arr[i];
+	}
 
-    for (int i = 0; i < N; i++)
-    {
-        cin >> time[i];
-    }
+	vector<int> dp(N);
 
-    sort(time.begin(), time.end());
-    int t = INT_MAX;
+	sort(arr.begin(), arr.end());
 
-    do
-    {
-        int sum = 0;
-        vector<int> temp;
+	dp[0] = arr[0];
 
-        for(int i = 0; i < N; i++)
-        {
-            sum += time[i];
-            temp.push_back(sum);
-        }
+	for(int i = 1; i < N; i++)
+	{
+		dp[i] = dp[i - 1] + arr[i];
+		
+	}
 
-        t = min(accumulate(temp.begin(), temp.end(), 0), t);
-    } while (prev_permutation(time.begin(), time.end()));
+	cout << accumulate(dp.begin(), dp.end(), 0) << endl;
 
-    cout << t << endl;
-
-    return 0;
+	return 0;
 }
