@@ -1,81 +1,72 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <algorithm>
 
 using namespace std;
 
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
+int N;
 
-void dfs(const vector<vector<int>> &land, vector<vector<bool>> &visited, int x, int y, int N, int rain)
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+
+void dfs(const vector<vector<int>> &graph, vector<vector<bool>> &visited, int x, int y, int height)
 {
-    visited[y][x] = true;
+	visited[x][y] = true;
 
-    for (int i = 0; i < 4; i++)
-    {
-        int nx = x + dx[i];
-        int ny = y + dy[i];
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-        if (nx >= 0 && nx < N && ny >= 0 && ny < N)
-        {
-            if (!visited[ny][nx] && land[ny][nx] > rain)
-            {
-                dfs(land, visited, nx, ny, N, rain);
-            }
-        }
-    }
+		if (nx >= 0 && nx < N && ny >= 0 && ny < N)
+		{
+			if (!visited[nx][ny] && graph[nx][ny] > height)
+			{
+				dfs(graph, visited, nx, ny, height);
+			}
+		}
+	}
 }
 
-int main(void)
+int main()
 {
-   // freopen("safearea.txt", "r", stdin);
+	cin >> N;
 
-    int N;
-    cin >> N;
+	vector<vector<int>> graph(N, vector<int>(N, 0));
+	vector<vector<bool>> visited(N, vector<bool>(N, false));
 
-    int rain = 8;
+	int max_height = 0;
 
-    int max_height = 0;
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			cin >> graph[i][j];
+			max_height = max(max_height, graph[i][j]);
+		}
+	}
 
-    vector<vector<int>> land(N, vector<int>(N, 0));
-    vector<vector<bool>> visited(N, vector<bool>(N, false));
-    int safe_count = 0;
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            int height;
+	int maxsafeareas = 1;
 
-            cin >> height;
+	for (int k = 1; k < max_height; k++)
+	{
+		visited.assign(N, vector<bool>(N, false));
+		int count = 0;
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				if (!visited[i][j] && graph[i][j] > k)
+				{
+					count++;
+					dfs(graph, visited, i, j, k);
+				}
+			}
+		}
+		maxsafeareas = max(maxsafeareas, count);
+	}
 
-            max_height = max(height, max_height);
+	cout << maxsafeareas << endl;
 
-            land[i][j] = height;
-        }
-    }
-
-    for(int rain = 0; rain < max_height; rain++)
-    {
-        visited.assign(N, vector<bool>(N, false));
-        int temp_height = 0;
-        for (int i = 0; i < N; i++)
-        {
-            for (int j = 0; j < N; j++)
-            {
-                if (!visited[i][j] && land[i][j] > rain)
-                {
-                    temp_height++;
-                    dfs(land, visited, j, i, N, rain);
-                }
-            }
-        }
-
-        safe_count = max(temp_height, safe_count);
-    }
-
-
-
-    cout << safe_count << endl;
-
-    return 0;
+	return 0;
 }
