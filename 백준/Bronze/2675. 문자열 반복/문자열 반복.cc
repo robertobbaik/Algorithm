@@ -1,35 +1,27 @@
 #include <iostream>
-#include <string>
-
+#include <vector>
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("RepeatingCharacters.txt", "r", stdin);
+	int T;
+	cin >> T;
 
-    int n;
+	while (T--)
+	{
+		int R;
+		cin >> R;
+		string S;
+		cin >> S;
 
-    cin >> n;
-
-    for(int i = 0; i < n; i++)
-    {
-        int R;
-        cin >> R;
-        string str;
-        cin >> str;
-
-        string answer;
-
-        for(int j = 0; j < str.size(); j++)
-        {
-            for(int k = 0; k < R; k++)
-            {
-                answer += str[j];
-            }
-        }
-
-        cout << answer << endl;
-    }
-
-    return 0;
+		for (char c : S)
+		{
+			for (int i = 0; i < R; i++)
+			{
+				cout << c;
+			}
+		}
+		cout << endl;
+	}
+	return 0;
 }
