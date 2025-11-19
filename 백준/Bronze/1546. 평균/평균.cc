@@ -5,34 +5,30 @@
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("average.txt", "r", stdin);
-    int N;
+	int N; 
+	cin >> N;
 
-    cin >> N;
+	vector<double> arr(N);
+	
+	
+	for(int i = 0; i < N; i++)
+	{
+		cin >> arr[i];
+	}
 
-    vector<int> results(N, 0);
+	double maxNum = *max_element(arr.begin(), arr.end());
 
-    for(int i = 0; i < N; i++)
-    {
-        cin >> results[i];
-    }
+	for(int i = 0; i < N; i++)
+	{
+		arr[i] = arr[i] / maxNum * 100;
+	}
 
-    int M = *max_element(results.begin(), results.end());
-    vector<float> average;
-    for(int i = 0; i < N; i++)
-    {
-        float temp = (float)results[i] / (float)M;
-        average.push_back(temp);
-    }
-    
+	double acm = accumulate(arr.begin(), arr.end(), 0.0f);
+	double answer = acm / N;
 
-    float sum = accumulate(average.begin(), average.end(), 0.0f);
+	cout << answer << endl;
 
-    sum /= N;
-
-    cout << sum * 100.0f << endl;
-
-    return 0;
+	return 0;
 }
