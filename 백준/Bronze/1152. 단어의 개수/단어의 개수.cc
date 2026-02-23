@@ -1,21 +1,25 @@
+// BOJ #1152 - 단어의 개수
+// https://www.acmicpc.net/problem/1152
 #include <iostream>
-#include <sstream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
 int main()
 {
-	int wordCount = 0;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	string word;
+    string s;
 
-	while (cin >> word)
-	{
-		wordCount++;
-	}
+    int wordCount = 0;
 
-	cout << wordCount << endl;
-	return 0;
+    while(cin >> s)
+    {
+        wordCount++;
+    }
+
+    cout << wordCount;
+
+    return 0;
 }
