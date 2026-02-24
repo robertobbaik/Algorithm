@@ -1,109 +1,94 @@
+// BOJ #5430 - AC
+// https://www.acmicpc.net/problem/5430
 #include <iostream>
-#include <vector>
 #include <deque>
-#include <algorithm>
 #include <string>
-
+#include <algorithm>
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("AC.txt", "r", stdin);
-    int T;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
+    int T;
     cin >> T;
 
-    for (int i = 0; i < T; i++)
+    while (T--)
     {
-        string p;
-        cin >> p;
+        string command;
+        cin >> command;
 
         int n;
         cin >> n;
 
-        string x;
-        cin >> x;
+        deque<int> dq;
 
-        deque<int> temp;
-        string str;
-        for (int i = 0; i < x.size(); i++)
+        string s;
+        cin >> s;
+        string temp = "";
+        for (int i = 0; i < s.length(); i++)
         {
-            if (isdigit(x[i]))
+            if (isdigit(s[i]))
             {
-                str += x[i];
+                temp += s[i];
             }
-            else if (x[i] == ',' || x[i] == ']')
+            else
             {
-                if (str == "")
-                    continue;
-                int n = stoi(str);
-                temp.push_back(n);
-                str = "";
+                if (!temp.empty())
+                {
+                    dq.push_back(stoi(temp));
+                    temp = "";
+                }
             }
         }
 
+        bool isReverse = false;
         bool isError = false;
-        bool isReversed = false;
 
-        for (int i = 0; i < p.size(); i++)
+        for (char cmd : command)
         {
-            if (p[i] == 'R')
+            if (cmd == 'R')
             {
-                isReversed = !isReversed;
+                isReverse = !isReverse;
             }
-            else if (p[i] == 'D')
+            else
             {
-                if (temp.empty())
+                if (dq.empty())
                 {
-                    cout << "error" << endl;
                     isError = true;
                     break;
                 }
+
+                if (isReverse)
+                {
+                    dq.pop_back();
+                }
                 else
                 {
-                    if (isReversed)
-                    {
-                        temp.pop_back();
-                    }
-                    else
-                    {
-                        temp.pop_front();
-                    }
+                    dq.pop_front();
                 }
             }
         }
 
-        if (!isError)
+        if (isError)
+        {
+            cout << "error\n";
+        }
+        else
         {
             cout << "[";
-
-            if (!temp.empty())
+            if (isReverse)
             {
-                if (isReversed)
-                {
-                    for (int i = temp.size() - 1; i >= 0; i--)
-                    {
-                        cout << temp[i];
-                        if (i != 0)
-                        {
-                            cout << ",";
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < temp.size(); i++)
-                    {
-                        cout << temp[i];
-                        if (i != temp.size() - 1)
-                        {
-                            cout << ",";
-                        }
-                    }
-                }
+                reverse(dq.begin(), dq.end());
             }
 
-            cout << "]" << endl;
+            for (int i = 0; i < dq.size(); i++)
+            {
+                cout << dq[i];
+                if(i < (int)dq.size() - 1) cout << ",";
+            }
+            cout << "]\n";
         }
     }
 
