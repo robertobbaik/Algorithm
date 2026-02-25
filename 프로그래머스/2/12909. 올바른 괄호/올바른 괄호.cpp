@@ -1,8 +1,5 @@
-// 프로그래머스 - 올바른 괄호
-// https://school.programmers.co.kr/learn/courses/30/lessons/12909
-
 #include <string>
-#include <vector>
+#include <iostream>
 #include <stack>
 
 using namespace std;
@@ -10,7 +7,7 @@ using namespace std;
 bool solution(string s)
 {
     bool answer = true;
-    
+
     stack<char> st;
 
     for(char c : s)
@@ -19,12 +16,11 @@ bool solution(string s)
         {
             st.push(c);
         }
-        else
+        else if(c == ')')
         {
             if(st.empty())
             {
-                answer = false;
-                break;
+                return false;
             }
             else
             {
@@ -35,8 +31,9 @@ bool solution(string s)
 
     if(!st.empty())
     {
-        answer = false;
+        return false;
     }
     
+
     return answer;
 }
