@@ -1,25 +1,29 @@
+// BOJ #2750 - 수 정렬하기
+// https://www.acmicpc.net/problem/2750
 #include <iostream>
-#include <vector>
 #include <algorithm>
-
 using namespace std;
 
 int main()
 {
-	int N;
-	cin >> N;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	vector<int> arr(N);
-	for(int i = 0; i < N; i++)
-	{
-		cin >> arr[i];
-	}
+    int N;
+    cin >> N;
 
-	sort(arr.begin(), arr.end());
+    vector<int> arr(N);
+    for(int i = 0; i < N; i++)
+    {
+        cin >> arr[i];
+    }
 
-	for(int n : arr)
-	{
-		cout << n << endl;
-	}
-	return 0;
+    sort(arr.begin(), arr.end());
+
+    for(int n : arr)
+    {
+        cout << n << '\n';
+    }
+
+    return 0;
 }
