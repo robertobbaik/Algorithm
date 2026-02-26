@@ -1,40 +1,46 @@
+// BOJ #11650 - 좌표 정렬하기
+// https://www.acmicpc.net/problem/11650
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
-bool compare(pair<int, int>& a, pair<int, int>& b)
+bool compare(const pair<int, int>& a, const pair<int, int>& b)
 {
-	if(a.first == b.first)
-	{
-		return a.second < b.second;
-	}
+    if(a.first == b.first)
+    {
+        return a.second < b.second;
+    }
 
-	return a.first < b.first;
+    return a.first < b.first;
 }
 
 int main()
 {
-	int N;
-	cin >> N;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	vector<pair<int, int>> vp(N);
+    int N;
 
-	for(int i = 0; i < N; i++)
-	{
-		int x, y;
+    cin >> N;
 
-		cin >> x >> y;
+    vector<pair<int, int>> vp;
 
-		vp[i] = make_pair(x, y);
-	}
+    for(int i = 0; i < N; i++)
+    {
+        int x, y;
+        cin >> x >> y;
 
-	sort(vp.begin(), vp.end());
+        vp.push_back({x, y});
+    }
 
-	for(auto p : vp)
-	{
-		cout << p.first << " " << p.second << '\n';
-	}
+    sort(vp.begin(), vp.end(), compare);
 
-	return 0;
+    for(auto& p : vp)
+    {
+        cout << p.first << ' ' << p.second << '\n';
+    }
+
+    return 0;
 }
