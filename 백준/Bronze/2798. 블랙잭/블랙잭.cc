@@ -1,65 +1,45 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
-int N, M;
-vector<int> arr;
-int result = 0;
-int prev_min_gap = 0;
-
-int solve()
-{
-	for (int i = 0; i < N; i++)
-	{
-		int left = i + 1;
-		int right = N - 1;
-
-		while (left < right)
-		{
-			int sum = arr[i] + arr[left] + arr[right];
-			int gap = M - sum;
-			
-			if (gap > 0 && gap < prev_min_gap)
-			{
-				result = sum;
-				prev_min_gap = gap;
-			}
-
-			if (sum < M)
-			{
-				left++;
-			}
-			else if (sum > M)
-			{
-				right--;
-			}
-			else
-			{
-				return sum;
-			}
-		}
-	}
-
-	return result;
-}
 
 int main()
 {
-	cin >> N >> M;
-	arr.resize(N);
+	int N, M;
 
-	for (int i = 0; i < N; i++)
+	cin >> N >> M;
+
+	vector<int> arr(N);
+
+	for(int i = 0; i < N; i++)
 	{
 		cin >> arr[i];
 	}
 
-	prev_min_gap = M;
+	int maxNum = 0;
 
-	sort(arr.begin(), arr.end());
-	result = solve();
+	for(int i = 0; i < N; i++)
+	{
+		for(int j = i + 1; j < N; j++)
+		{
+			for(int k = j + 1; k < N; k++)
+			{
+				int num = arr[i] + arr[j] + arr[k];
 
-	cout << result << endl;
+				if(num > M)
+				{
+					continue;
+				}
+				else
+				{
+					maxNum = max(maxNum, num);
+				}
+			}
+		}
+	}
+
+	cout << maxNum << endl;
+
 
 	return 0;
 }
