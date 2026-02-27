@@ -1,10 +1,13 @@
+// 프로그래머스 - 가장 큰 수
+// https://school.programmers.co.kr/learn/courses/30/lessons/42746
+
 #include <string>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-bool compare(string a, string b)
+bool compare(const string& a, const string& b)
 {
     return a + b > b + a;
 }
@@ -13,21 +16,21 @@ string solution(vector<int> numbers)
 {
     string answer = "";
 
-    vector<string> v;
+    vector<string> arr;
 
-    for(int num : numbers)
+    for(int n : numbers)
     {
-        v.push_back(to_string(num));
+        arr.push_back(to_string(n));
     }
 
-    sort(v.begin(), v.end(), compare);
+    sort(arr.begin(), arr.end(), compare);
 
-    for(string s : v)
+    for(string s : arr)
     {
         answer += s;
     }
 
-    if(answer[0] =='0') return "0";
-
+    if(answer[0] == '0') answer = "0";
+    
     return answer;
 }
