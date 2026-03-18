@@ -1,37 +1,39 @@
+// BOJ #15651 - N과 M (3)
+// https://www.acmicpc.net/problem/15651
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-void backtracking(vector<int> &arr, int depth, int N, int M)
+// TODO
+void backtracking(int N, int M, vector<int>& arr, int depth)
 {
     if(depth == M)
     {
         for(int i = 0; i < M; i++)
         {
-            cout << arr[i] << " ";
+            cout << arr[i] << " \n"[i == M - 1];
         }
-        cout << "\n";
         return;
     }
 
     for(int i = 1; i <= N; i++)
     {
         arr[depth] = i;
-        backtracking(arr, depth + 1, N, M); 
+        backtracking(N, M, arr, depth + 1);
     }
 }
 
-int main(void)
+int main()
 {
-    //freopen("NM1.txt", "r", stdin);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int N, M;
-
     cin >> N >> M;
 
-    vector<int> arr(N + 1);
-    backtracking(arr, 0, N, M);
+    // TODO
+    vector<int> arr(8, 0);
 
+    backtracking(N, M, arr, 0);
     return 0;
 }
