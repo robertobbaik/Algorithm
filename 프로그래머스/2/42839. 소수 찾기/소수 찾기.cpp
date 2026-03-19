@@ -1,70 +1,63 @@
-// 프로그래머스 - 소수 찾기
-// https://school.programmers.co.kr/learn/courses/30/lessons/42839
-
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <cmath>
 #include <set>
+#include <algorithm>
+
 
 using namespace std;
 
-int answer = 0;
-
-bool isValid(int num)
+bool isPrime(int num)
 {
     if (num < 2)
-    {
         return false;
-    }
-
     if (num == 2)
-    {
         return true;
-    }
-
     if (num % 2 == 0)
-    {
         return false;
-    }
 
-    for (int i = 3; i * i <= num; i += 2)
+    for (int i = 3; i <= sqrt(num); i += 2)
     {
         if (num % i == 0)
         {
             return false;
         }
     }
-
     return true;
 }
 
 int solution(string numbers)
 {
-    int answer = 0;
+    set<int> numSet;
 
-    set<int> s;
+    vector<char> digits(numbers.begin(), numbers.end());
 
-    sort(numbers.begin(), numbers.end());
-
-    do
+    for (int len = 1; len <= numbers.length(); len++)
     {
-        string temp;
-        for (char c : numbers)
-        {
-            temp += c;
-            int num = stoi(temp);
-            s.insert(num);
-        }
-        temp = "";
-    } while (next_permutation(numbers.begin(), numbers.end()));
+        vector<char> temp = digits;
+        sort(temp.begin(), temp.end());
 
-    for (int n : s)
-    {
-        if (isValid(n))
+        do
         {
-            answer++;
+            string numStr = "";
+            for (int i = 0; i < len; i++)
+            {
+                numStr += temp[i];
+            }
+
+            int num = stoi(numStr);
+            numSet.insert(num);
+        } while (next_permutation(temp.begin(), temp.end()));
+    }
+
+    int primeCount = 0;
+    for (int num : numSet)
+    {
+        if (isPrime(num))
+        {
+            primeCount++;
         }
     }
 
-    return answer;
+    return primeCount;
 }
