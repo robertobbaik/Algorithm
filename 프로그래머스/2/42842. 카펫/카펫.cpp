@@ -1,5 +1,9 @@
+// 프로그래머스 - 카펫
+// https://school.programmers.co.kr/learn/courses/30/lessons/42842
+
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -7,28 +11,25 @@ vector<int> solution(int brown, int yellow)
 {
     vector<int> answer;
 
-    int totalGrid = brown + yellow;
+    int total = brown + yellow;
 
-    int limit = brown / 2;
+    int minVal = 2;
 
-    vector<pair<int, int>> temp;
-
-    for(int i = 3; i < limit; ++i)
+    for(int i = minVal; i < total / minVal; i++)
     {
-        if(totalGrid % i != 0) continue; 
-        int divide = totalGrid / i;
-
-        if(totalGrid / i >= limit) continue;
-        
-        if((2 * divide) + (2 * i - 4) == brown)
+        if(total % i == 0)
         {
-            temp.push_back({divide, i});
-            break;
+            int w = total / i;
+            int tempBrown = 2 * w + 2 * (i - 2);
+
+            if(tempBrown == brown)
+            {
+                answer.push_back(total / i);
+                answer.push_back(i);
+                break;
+            }
         }
     }
-
-    answer.push_back(temp[0].first);
-    answer.push_back(temp[0].second);
 
     return answer;
 }
