@@ -3,8 +3,24 @@
 #include <iostream>
 #include <vector>
 
-
 using namespace std;
+
+int answer = 0;
+
+void backtracking(int N, int S, vector<int> &arr, int index, int sum)
+{
+    if (index == N)
+    {
+        if(sum == S)
+        {
+            answer++;
+        }
+        return;
+    }
+
+    backtracking(N, S, arr, index + 1, sum + arr[index]);
+    backtracking(N, S, arr, index + 1, sum);
+}
 
 int main()
 {
@@ -16,34 +32,16 @@ int main()
 
     vector<int> arr(N);
 
-    for(int i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)
     {
         cin >> arr[i];
     }
 
-    int answer = 0;
+    answer = S == 0 ? -1 : 0;
 
-    for(int i = 1; i < (1 << N); i++)
-    {
-        int sum = 0;
-        for(int j = 0; j < N; j++)
-        {
-            if(i & (1 << j))
-            {
-                sum += arr[j];
-            }
-        }
-
-        if(sum == S)
-        {
-            answer++;
-        }
-    }
+    backtracking(N, S, arr, 0, 0);
 
     cout << answer << endl;
 
     return 0;
 }
-
-// [코드 평가]
-// 정확한 풀이. i=1부터 시작해 공집합 제외, 비트마스크로 2^N 부분집합 순회
