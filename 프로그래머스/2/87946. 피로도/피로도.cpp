@@ -10,11 +10,11 @@ using namespace std;
 
 int answer = -1;
 
-void backtracking(int k, vector<vector<int>>& dungeons, vector<bool>& visited, int depth)
+void backtracking(int k, vector<vector<int>> &dungeons, vector<bool> &visited, int depth)
 {
-    for(int i = 0; i < dungeons.size(); i++)
+    for (int i = 0; i < dungeons.size(); i++)
     {
-        if(!visited[i] && dungeons[i][0] <= k)
+        if (!visited[i] && dungeons[i][0] <= k)
         {
             visited[i] = true;
             backtracking(k - dungeons[i][1], dungeons, visited, depth + 1);
@@ -29,13 +29,7 @@ int solution(int k, vector<vector<int>> dungeons)
 {
     vector<bool> visited(dungeons.size(), false);
 
-    for(int i = 0; i < dungeons.size(); i++)
-    {
-        backtracking(k, dungeons, visited, 0);
-    }
-
-
-    
+    backtracking(k, dungeons, visited, 0);
 
     return answer;
 }
