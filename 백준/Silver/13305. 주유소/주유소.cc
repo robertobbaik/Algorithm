@@ -15,8 +15,8 @@ int main()
     int N;
     cin >> N;
 
-    vector<int> distance(N);
-    vector<int> price(N);
+    vector<long long> distance(N);
+    vector<long long> price(N);
 
     for (int i = 1; i < N; i++)
     {
@@ -28,21 +28,13 @@ int main()
         cin >> price[i];
     }
 
-    int min_price = *min_element(price.begin(), price.end() - 1);
-    int cost = 0;
-    int prev_cost = 0;
+    long long min_price = price[0];
+    long long cost = 0;
 
-    for (int i = 0; i < N; i++)
+    for (int i = 1; i < N; i++)
     {
-        if (price[i] >= price[i + 1])
-        {
-            cost += distance[i + 1] * price[i];
-        }
-        else if (price[i] == min_price)
-        {
-            cost += accumulate(distance.begin() + i + 1, distance.end(), 0) * min_price;
-            break;
-        }
+        min_price = min(price[i - 1], min_price);
+        cost += (distance[i] * min_price);
     }
 
     cout << cost << endl;
