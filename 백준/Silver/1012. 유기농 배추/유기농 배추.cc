@@ -1,69 +1,75 @@
+// BOJ #1012 - 유기농 배추
+// https://www.acmicpc.net/problem/1012
 #include <iostream>
 #include <vector>
 
 using namespace std;
-int M, N, K;
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, -1, 1};
 
-void dfs(const vector<vector<int>> &board, vector<vector<bool>> &visited, int x, int y)
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {-1, 1, 0, 0};
+
+void dfs(vector<vector<int>> &board, vector<vector<bool>> &visited, int M, int N, int x, int y)
 {
-	for (int i = 0; i < 4; i++)
-	{
-		int nx = x + dx[i];
-		int ny = y + dy[i];
+    visited[x][y] = true;
 
-		if (nx >= 0 && nx < N && ny >= 0 && ny < M)
-		{
-			if (!visited[nx][ny] && board[nx][ny] == 1)
-			{
-				visited[nx][ny] = true;
-				dfs(board, visited, nx, ny);
-			}
-		}
-	}
+    for (int i = 0; i < 4; i++)
+    {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        if (nx >= 0 && nx < M && ny >= 0 && ny < N)
+        {
+            if (!visited[nx][ny] && board[nx][ny] == 1)
+            {
+                dfs(board, visited, M, N, nx, ny);
+            }
+        }
+    }
 }
 
-int main(void)
+int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	int T;
-	cin >> T;
+    int T;
+    cin >> T;
 
-	while (T--)
-	{
-		cin >> M >> N >> K;
+    while (T--)
+    {
+        int M, N;
+        cin >> M >> N;
 
-		vector<vector<int>> board(N, vector<int>(M, 0));
-		vector<vector<bool>> visited(N, vector<bool>(M, false));
+        vector<vector<int>> board(M, vector<int>(N, 0));
+        vector<vector<bool>> visited(M, vector<bool>(N, false));
 
-		for (int i = 0; i < K; i++)
-		{
-			int X, Y;
-			cin >> X >> Y;
+        int K;
+        cin >> K;
 
-			board[Y][X] = 1;
-		}
+        for (int i = 0; i < K; i++)
+        {
+            int x, y;
+            cin >> x >> y;
 
-		int wormcount = 0;
+            board[x][y] = 1;
+        }
 
-		for (int i = 0; i < N; i++)
-		{
-			for (int j = 0; j < M; j++)
-			{
-				if (board[i][j] == 1 && !visited[i][j])
-				{
-					visited[i][j] = true;
-					dfs(board, visited, i, j);
-					wormcount++;
-				}
-			}
-		}
+        int count = 0;
 
-		cout << wormcount << endl;
-	}
+        for(int i = 0; i < M; i++)
+        {
+            for(int j = 0; j < N; j++)
+            {
+                if(!visited[i][j] && board[i][j] == 1)
+                {
+                    count++;
+                    dfs(board, visited, M, N, i, j);
+                }
+            }
+        }
 
-	return 0;
+        cout << count << endl;
+    }
+
+    return 0;
 }
