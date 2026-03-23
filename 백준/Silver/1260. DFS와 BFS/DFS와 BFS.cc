@@ -1,3 +1,5 @@
+// BOJ #1260 - DFS와 BFS
+// https://www.acmicpc.net/problem/1260
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -5,52 +7,47 @@
 
 using namespace std;
 
-void dfs(vector<vector<int>> &graph, vector<bool> &visited, int node)
+void dfs(vector<vector<int>> &graph, vector<bool> &visited, int next)
 {
-    visited[node] = true;
-    cout << node << " ";
-    for (int n : graph[node])
+    cout << next << " ";
+
+    for (int n : graph[next])
     {
         if (!visited[n])
         {
+            visited[n] = true;
             dfs(graph, visited, n);
         }
     }
 }
 
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    //freopen("dfsbfs.txt", "r", stdin);
-
     int N, M, V;
-
     cin >> N >> M >> V;
 
     vector<vector<int>> graph(N + 1);
-
+    vector<bool> visited(N + 1, false);
     for (int i = 0; i < M; i++)
     {
-        int a, b;
+        int start, end;
+        cin >> start >> end;
 
-        cin >> a >> b;
-
-        graph[a].push_back(b);
-        graph[b].push_back(a);
+        graph[start].push_back(end);
+        graph[end].push_back(start);
     }
 
-    for (int i = 1; i <= N; ++i)
+    for(int i = 1; i < N + 1; i++)
     {
         sort(graph[i].begin(), graph[i].end());
     }
 
-    vector<bool> visited(N + 1, false);
-
+    visited[V] = true;
     dfs(graph, visited, V);
-
-    cout << "\n";
+    cout << endl;
 
     visited.assign(N + 1, false);
 
@@ -58,13 +55,16 @@ int main(void)
 
     q.push(V);
     visited[V] = true;
+
     while (!q.empty())
     {
-        int node = q.front();
-        cout << node << " ";
+        int next = q.front();
+
         q.pop();
 
-        for (int n : graph[node])
+        cout << next << " ";
+
+        for (int n : graph[next])
         {
             if (!visited[n])
             {
