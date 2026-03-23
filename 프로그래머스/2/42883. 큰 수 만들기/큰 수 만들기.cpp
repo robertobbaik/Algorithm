@@ -1,34 +1,41 @@
+// 프로그래머스 - 큰 수 만들기
+// https://school.programmers.co.kr/learn/courses/30/lessons/42883
+
 #include <string>
 #include <vector>
 #include <stack>
 
 using namespace std;
+
+
 string solution(string number, int k)
 {
     string answer = "";
+    int len = number.size();
     stack<char> s;
-
-    int count = k;
 
     for(char c : number)
     {
-        while(!s.empty() && s.top() < c && count > 0)
+        while(!s.empty() && s.top() < c && k > 0)
         {
             s.pop();
-            count--;
+            k--;
         }
         s.push(c);
     }
 
-    while(count > 0)
+    while(k > 0)
     {
         s.pop();
-        count--;
+        k--;
     }
 
-    while (!s.empty()) {
+    while(!s.empty())
+    {
         answer = s.top() + answer;
         s.pop();
     }
+    
+
     return answer;
 }
