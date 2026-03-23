@@ -1,53 +1,61 @@
+// 프로그래머스 - 체육복
+// https://school.programmers.co.kr/learn/courses/30/lessons/42862
+
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int solution(int n, vector<int> lost, vector<int> reserve) {
-    int answer = 0;
-    vector<int> temp(n, 1);
-    
-    for(int num : lost)
+int solution(int n, vector<int> lost, vector<int> reserve)
+{
+    int answer = n;
+
+    vector<int> arr(n, 1);
+
+    for (int n : lost)
     {
-        temp[num - 1]--;
+        arr[n - 1]--;
     }
-    
-    for(int num : reserve)
+
+    for (int n : reserve)
     {
-        temp[num - 1]++;
+        arr[n - 1]++;
     }
-    
-    for(int i = 0; i < temp.size(); i++)
+
+    for (int i = 0; i < n; i++)
     {
-        if(temp[i] == 0)
+        if (arr[i] == 0)
         {
-            if(i - 1 >= 0)
+            if (i - 1 >= 0)
             {
-                if(temp[i - 1] == 2)
+                if (arr[i - 1] == 2)
                 {
-                    temp[i]++;
-                    temp[i - 1]--;
+                    arr[i - 1]--;
+                    arr[i]++;
                     continue;
                 }
             }
             
-            if(i + 1 <= temp.size() - 1)
+            if (i < n - 1)
             {
-                if(temp[i + 1] == 2)
+                if(arr[i + 1] == 2)
                 {
-                    temp[i]++;
-                    temp[i + 1]--;
+                    arr[i + 1]--;
+                    arr[i]++;
+                    
                 }
             }
         }
     }
-    
-    for(int num : temp)
+
+    for(int num : arr)
     {
-        if(num >= 1){
-            answer++;
+        if(num == 0)
+        {
+            answer--;
         }
     }
-    
+
     return answer;
 }
