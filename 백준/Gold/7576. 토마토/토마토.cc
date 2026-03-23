@@ -1,3 +1,5 @@
+// BOJ #7576 - 토마토
+// https://www.acmicpc.net/problem/7576
 #include <iostream>
 #include <vector>
 #include <tuple>
@@ -11,67 +13,72 @@ int dy[4] = {-1, 1, 0, 0};
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	int M, N;
-	cin >> M >> N;
+    int M, N;
+    cin >> M >> N;
 
-	vector<vector<int>> board(N, vector<int>(M, 0));
+    vector<vector<int>> board(N, vector<int>(M, 0));
+    vector<vector<bool>> visited(N, vector<bool>(M, false));
 
-	int zerocount = 0;
-	int day = 0;
+    queue<tuple<int, int, int>> q;
+    int day = 0;
+    int zero = 0;
 
-	queue<tuple<int, int, int>> q;
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < M; j++)
+        {
+            int num;
+            cin >> num;
+            board[i][j] = num;
 
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < M; j++)
-		{
-			cin >> board[i][j];
-			if (board[i][j] == 0)
-			{
-				zerocount++;
-			}
-			else if (board[i][j] == 1)
-			{
-				q.push({i, j, 0});
-			}
-		}
-	}
+            if (num == 0)
+            {
+                zero++;
+            }
 
-	while (!q.empty())
-	{
-		auto [x, y, t] = q.front();
-		q.pop();
+            if (num == 1)
+            {
+                q.push({i, j, 0});
+                visited[i][j] = true;
+            }
+        }
+    }
 
-		day = max(day, t);
+    while (!q.empty())
+    {
+        auto [x, y, t] = q.front();
+        q.pop();
 
-		for (int i = 0; i < 4; i++)
-		{
-			int nx = x + dx[i];
-			int ny = y + dy[i];
+        day = max(day, t);
 
-			if (nx >= 0 && nx < N && ny >= 0 && ny < M)
-			{
-				if (board[nx][ny] == 0)
-				{
-					zerocount--;
-					board[nx][ny] = 1;
-					q.push({nx, ny, t + 1});
-				}
-			}
-		}
-	}
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-	if (zerocount == 0)
-	{
-		cout << day << endl;
-	}
-	else
-	{
-		cout << -1 << endl;
-	}
+            if (nx >= 0 && nx < N && ny >= 0 && ny < M)
+            {
+                if (!visited[nx][ny] && board[nx][ny] == 0)
+                {
+                    visited[nx][ny] = true;
+                    zero--;
+                    q.push({nx, ny, t + 1});
+                }
+            }
+        }
+    }
 
-	return 0;
+    if(zero > 0)
+    {
+        cout << -1 << endl;
+    }
+    else
+    {
+        cout << day << endl;
+    }
+
+    return 0;
 }
