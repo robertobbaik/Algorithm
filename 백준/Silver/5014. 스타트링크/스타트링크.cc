@@ -1,46 +1,53 @@
+// BOJ #5014 - 스타트링크
+// https://www.acmicpc.net/problem/5014
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-	int F, S, G, U, D;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	cin >> F >> S >> G >> U >> D;
+    int F, S, G, U, D;
 
-	queue<pair<int, int>> q;
-	vector<bool> visited(F + 1, false);
-	
-	q.push({S, 0});
-	visited[S] = true;
+    cin >> F >> S >> G >> U >> D;
 
-	while(!q.empty())
-	{
-		auto[floor, count] = q.front();
-		q.pop();
+    vector<bool> visited(F + 1, false);
 
-		if(floor == G)
-		{
-			cout << count << endl;
-			return 0;
-		}
+    queue<pair<int, int>> q;
 
-		if(floor - D >= 1 && !visited[floor - D])
-		{
-			q.push({floor - D, count + 1});
-			visited[floor - D] = true;
-		}
+    q.push({S, 0});
 
-		if(floor + U <= F && !visited[floor + U])
-		{
-			q.push({floor + U, count + 1});
-			visited[floor + U] = true;
-		}		
-	}
+    visited[S] = true;
 
-	cout << "use the stairs" << endl; 
+    while (!q.empty())
+    {
+        auto [cur, count] = q.front();
+        q.pop();
 
-	return 0;
+        if (cur == G)
+        {
+            cout << count << endl;
+            return 0;
+        }
+
+        if (cur + U > 0 && cur + U < F + 1 && !visited[cur + U])
+        {
+            visited[cur + U] = true;
+            q.push({cur + U, count + 1});
+        }
+
+        if (cur - D > 0 && cur - D < F + 1 && !visited[cur - D])
+        {
+            visited[cur - D] = true;
+            q.push({cur - D, count + 1});
+        }
+    }
+
+    cout << "use the stairs" << endl;
+
+    return 0;
 }
