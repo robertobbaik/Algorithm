@@ -1,27 +1,32 @@
+// BOJ #7569 -
+// https://www.acmicpc.net/problem/7569
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <tuple>
 #include <algorithm>
 
 using namespace std;
 
-int dx[6] = {-1, 1, 0, 0, 0, 0};
-int dy[6] = {0, 0, -1, 1, 0, 0};
+int dx[6] = {0, 0, 1, -1, 0, 0};
+int dy[6] = {-1, 1, 0, 0, 0, 0};
 int dz[6] = {0, 0, 0, 0, -1, 1};
 
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //freopen("tomato.txt", "r", stdin);
+
     int M, N, H;
-    int zero_count = 0;
-    int total_tomato = 0;
 
     cin >> M >> N >> H;
-    // cout << M << N << H << endl;
+
     vector<vector<vector<int>>> board(H, vector<vector<int>>(N, vector<int>(M, 0)));
+    vector<vector<vector<bool>>> visited(H, vector<vector<bool>>(N, vector<bool>(M, false)));
     queue<tuple<int, int, int, int>> q;
+
+    int zero = 0;
+    int day = 0;
 
     for (int i = 0; i < H; i++)
     {
@@ -29,30 +34,30 @@ int main(void)
         {
             for (int k = 0; k < M; k++)
             {
-                cin >> board[i][j][k];
+                int num;
+                cin >> num;
+                board[i][j][k] = num;
 
-                if (board[i][j][k] == 0)
+                if (num == 0)
                 {
-                    total_tomato++;
+                    zero++;
                 }
-                else if (board[i][j][k] == 1)
+
+                if (num == 1)
                 {
-                    total_tomato++;
-                    q.push({i, j, k, 0});
-                    zero_count++;
+                    q.push({j, k, i, 0});
+                    visited[i][j][k] = true;
                 }
             }
         }
     }
 
-    int maxday = 0;
-
     while (!q.empty())
     {
-        auto [z, x, y, day] = q.front();
+        auto [x, y, z, t] = q.front();
         q.pop();
-
-        maxday = max(maxday, day);
+        
+        day = max(t, day);
 
         for (int i = 0; i < 6; i++)
         {
@@ -62,23 +67,23 @@ int main(void)
 
             if (nx >= 0 && nx < N && ny >= 0 && ny < M && nz >= 0 && nz < H)
             {
-                if (board[nz][nx][ny] == 0)
+                if (!visited[nz][nx][ny] && board[nz][nx][ny] == 0)
                 {
-                    board[nz][nx][ny] = 1;
-                    zero_count++;
-                    q.push({nz, nx, ny, day + 1});
+                    visited[nz][nx][ny] = true;
+                    zero--;
+                    q.push({nx, ny, nz, t + 1});
                 }
             }
         }
     }
 
-    if (zero_count == total_tomato)
+    if (zero > 0)
     {
-        cout << maxday << endl;
+        cout << -1 << endl;
     }
     else
     {
-        cout << -1 << endl;
+        cout << day << endl;
     }
 
     return 0;
