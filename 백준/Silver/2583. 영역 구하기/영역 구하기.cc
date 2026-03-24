@@ -37,8 +37,8 @@ int main()
 
     cin >> M >> N >> K;
 
-    vector<vector<bool>> square(M + 1, vector<bool>(N + 1, false));
-    vector<vector<bool>> visited(M + 1, vector<bool>(N + 1, false));
+    vector<vector<bool>> square(M, vector<bool>(N, false));
+    vector<vector<bool>> visited(M, vector<bool>(N, false));
     vector<int> answer;
     for (int i = 0; i < K; i++)
     {
