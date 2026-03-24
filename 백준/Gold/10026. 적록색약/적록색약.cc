@@ -1,99 +1,106 @@
+// BOJ #10026 - 적록색약
+// https://www.acmicpc.net/problem/10026
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-int dx[8] = {0, 0, -1, 1};
-int dy[8] = {-1, 1, 0, 0};
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {-1, 1, 0, 0};
 
-void dfs(vector<vector<char>> &picture, vector<vector<bool>> &visited, int x, int y, int N, char color)
+void dfs(vector<string> &board, vector<vector<bool>> &visited, int N, int M, int x, int y, char ch)
 {
-    visited[y][x] = true;
-
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 4; i++)
     {
         int nx = x + dx[i];
         int ny = y + dy[i];
 
-        if (nx >= 0 && nx < N && ny >= 0 && ny < N)
+        if (nx >= 0 && nx < N && ny >= 0 && ny < M)
         {
-            if (!visited[ny][nx] && picture[ny][nx] == color)
+            if (board[nx][ny] == ch && !visited[nx][ny])
             {
-                dfs(picture, visited, nx, ny, N, color);
+                visited[nx][ny] = true;
+                dfs(board, visited, N, M, nx, ny, ch);
             }
         }
     }
 }
 
-int main(void)
+int main()
 {
-    //freopen("rgb.txt", "r", stdin);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    vector<string> board;
 
     int N;
-
     cin >> N;
 
-    vector<vector<char>> picture(N, vector<char>(N, 'A'));
-    vector<vector<bool>> visited(N, vector<bool>(N, false));
+    for(int i = 0; i < N; i++)
+    {
+        string str;
+        cin >> str;
+        board.push_back(str);
+    }
+
+    int r = 0;
+    int b = 0;
+    int g = 0;
+    int M = board[0].size();
+    vector<vector<bool>> visited(N, vector<bool>(M, false));
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < M; j++)
+        {
+            if (!visited[i][j])
+            {
+                int area = 0;
+                visited[i][j] = true;
+                if (board[i][j] == 'R')
+                    r++;
+                if (board[i][j] == 'B')
+                    b++;
+                if (board[i][j] == 'G')
+                    g++;
+                
+                dfs(board, visited, N, M, i, j, board[i][j]);
+            }
+        }
+    }
+    cout << r + g + b << " ";
 
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < M; j++)
         {
-            char c;
-            cin >> c;
-            picture[i][j] = c;
-        }
-    }
-
-    vector<char> vc = {'R', 'B', 'G'};
-    int count = 0;
-    for (int k = 0; k < vc.size(); k++)
-    {
-        for (int i = 0; i < N; i++)
-        {
-            for (int j = 0; j < N; j++)
+            if (board[i][j] == 'G')
             {
-                if (!visited[i][j] && picture[i][j] == vc[k])
-                {
-                    dfs(picture, visited, j, i, N, vc[k]);
-                    count++;
-                }
-            }
-        }
-    }
-    //cout << count << endl;
-
-    vc.pop_back();
-
-    for (auto &v : picture)
-    {
-        for (char &c : v)
-        {
-            if (c == 'G')
-            {
-                c = 'R';
+                board[i][j] = 'R';
             }
         }
     }
 
-    int weak_count = 0;
-    visited.assign(N, vector<bool>(N, false));
-    for (int k = 0; k < vc.size(); k++)
+    visited.assign(N, vector<bool>(M, false));
+    r = 0;
+    b = 0;
+    for (int i = 0; i < N; i++)
     {
-        for (int i = 0; i < N; i++)
+        for (int j = 0; j < M; j++)
         {
-            for (int j = 0; j < N; j++)
+            if (!visited[i][j])
             {
-                if (!visited[i][j] && picture[i][j] == vc[k])
-                {
-                    dfs(picture, visited, j, i, N, vc[k]);
-                    weak_count++;
-                }
+                int area = 0;
+                visited[i][j] = true;
+                if (board[i][j] == 'R')
+                    r++;
+                if (board[i][j] == 'B')
+                    b++;
+                dfs(board, visited, N, M, i, j, board[i][j]);
             }
         }
     }
 
-    cout << count << " " << weak_count << endl;
+    cout << r + b << endl;
 
     return 0;
 }
