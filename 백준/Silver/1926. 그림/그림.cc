@@ -1,82 +1,79 @@
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <algorithm>
-#include <tuple>
+    // BOJ #1926 - 그림
+    // https://www.acmicpc.net/problem/1926
+    #include <iostream>
+    #include <vector>
+    #include <algorithm>
 
-using namespace std;
+    using namespace std;
 
-int N, M;
+    int dx[4] = {0, 0, -1, 1};
+    int dy[4] = {-1, 1, 0, 0};
 
-// 상하좌우
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
-
-// BFS 함수
-int bfs(const vector<vector<int>> &board, vector<vector<bool>> &visited, int startX, int startY)
-{
-    queue<tuple<int, int>> q;
-    q.push({startX, startY});
-    visited[startY][startX] = true;
-
-    int area = 1;
-
-    while (!q.empty())
+    void dfs(vector<vector<int>> &board, vector<vector<bool>> &visited, int N, int M, int x, int y, int &area)
     {
-        auto [x, y] = q.front(); q.pop();
-
         for (int i = 0; i < 4; i++)
         {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if (nx >= 0 && nx < M && ny >= 0 && ny < N)
+            if (nx >= 0 && nx < N && ny >= 0 && ny < M)
             {
-                if (!visited[ny][nx] && board[ny][nx] == 1)
+                if (board[nx][ny] == 1 && !visited[nx][ny])
                 {
-                    visited[ny][nx] = true;
-                    q.push({nx, ny});
                     area++;
+                    visited[nx][ny] = true;
+                    dfs(board, visited, N, M, nx, ny, area);
                 }
             }
         }
     }
 
-    return area;
-}
-
-int main(void)
-{
-    cin >> N >> M;
-
-    vector<vector<int>> board(N, vector<int>(M, 0));
-    vector<vector<bool>> visited(N, vector<bool>(M, false));
-
-    for (int i = 0; i < N; i++)
+    int main()
     {
-        for (int j = 0; j < M; j++)
-        {
-            cin >> board[i][j];
-        }
-    }
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
 
-    int pictureCount = 0;
-    int maxArea = 0;
+        int N, M;
+        cin >> N >> M;
 
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < M; j++)
+        vector<vector<int>> board(N, vector<int>(M, 0));
+        vector<vector<bool>> visited(N, vector<bool>(M, false));
+
+        for (int i = 0; i < N; i++)
         {
-            if (!visited[i][j] && board[i][j] == 1)
+            for (int j = 0; j < M; j++)
             {
-                pictureCount++;
-                maxArea = max(maxArea, bfs(board, visited, j, i));
+                cin >> board[i][j];
             }
         }
+
+        vector<int> answer;
+
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < M; j++)
+            {
+                if (!visited[i][j] && board[i][j] == 1)
+                {
+                    int area = 1;
+                    visited[i][j] = true;
+                    dfs(board, visited, N, M, i, j, area);
+                    answer.push_back(area);
+                }
+            }
+        }
+
+        cout << answer.size() << endl;
+
+        if (answer.size() > 0)
+        {
+            int num = *max_element(answer.begin(), answer.end());
+            cout << num << endl;
+        }
+        else
+        {
+            cout << 0 << endl;
+        }
+
+        return 0;
     }
-
-    cout << pictureCount << endl;
-    cout << maxArea << endl;
-
-    return 0;
-}
