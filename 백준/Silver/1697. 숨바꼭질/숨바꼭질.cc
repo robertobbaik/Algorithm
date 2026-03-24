@@ -1,58 +1,57 @@
+// BOJ #1697 -
+// https://www.acmicpc.net/problem/1697
 #include <iostream>
 #include <vector>
 #include <queue>
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("findbrother.txt", "r", stdin);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int N, K;
 
     cin >> N >> K;
 
     queue<pair<int, int>> q;
-    vector<bool> visited(100001, false);
-
-    int time = 0;
-    q.push({N, time});
+    bool visited[100001] = {false,};
+    q.push({N, 0});
     visited[N] = true;
+    
 
-    while (!q.empty())
+    while(!q.empty())
     {
-        int x = q.front().first;
-        int time = q.front().second;
+        auto[pos, time] = q.front();
         q.pop();
-        // cout << x << " " << time << endl;
 
-        if (x == K)
+        if(pos == K)
         {
             cout << time << endl;
             break;
         }
 
-        if (x + 1 >= 0 && x + 1 < 100001 && !visited[x + 1])
+        if(pos - 1 >= 0 && pos - 1 < 100001 && !visited[pos -1])
         {
-            visited[x + 1] = true;
-            q.push({x + 1, time + 1});
-            
+            visited[pos - 1] = true;
+            q.push({pos - 1, time + 1});
         }
 
-        if (x - 1 >= 0 && !visited[x - 1] && x - 1 < 100001)
+        if(pos + 1 >= 0 && pos + 1 < 100001 && !visited[pos + 1])
         {
-            visited[x - 1] = true;
-            q.push({x - 1, time + 1});
-            //
+            visited[pos + 1] = true;
+            q.push({pos + 1, time + 1});
         }
 
-        if (2 * x >= 0 && 2 * x < 100001 && !visited[2 * x])
+        if(pos * 2 >= 0 && pos * 2 < 100001 && !visited[pos * 2])
         {
-            visited[2 * x] = true;
-            q.push({2 * x, time + 1});
-            //
+            visited[pos * 2] = true;
+            q.push({pos * 2, time + 1});
         }
     }
+
+
 
     return 0;
 }
