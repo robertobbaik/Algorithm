@@ -1,27 +1,32 @@
+// BOJ #11726 - 2×n 타일링
+// https://www.acmicpc.net/problem/11726
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 int main()
 {
-	int n;
-	cin >> n;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	vector<int> dp(n + 1);
+    int n;
+    cin >> n;
 
-	dp[1] = 1;
+    vector<int> dp(n + 1);
 
-	if (n >= 2)
-	{
-		dp[2] = 2;
-	}
+    dp[1] = 1;
+    
+    if(n >= 2)
+    {
+        dp[2] = 2;
+    }
 
-	for (int i = 3; i < n + 1; i++)
-	{
-		dp[i] = (dp[i - 2] + dp[i - 1]) % 10007;
-	}
+    for(int i = 3; i <= n; i++)
+    {
+        dp[i] = (dp[i - 2] + dp[i - 1]) % 10007;
+    }
 
-	cout << dp[n] << endl;
-	return 0;
+    cout << dp[n] << endl;
+
+    return 0;
 }
