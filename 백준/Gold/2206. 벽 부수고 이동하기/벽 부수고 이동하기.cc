@@ -1,7 +1,9 @@
+// BOJ #2206 - 벽 부수고 이동하기
+// https://www.acmicpc.net/problem/2206
 #include <iostream>
-#include <queue>
 #include <vector>
-#include <string>
+#include <algorithm>
+#include <queue>
 #include <tuple>
 
 using namespace std;
@@ -9,9 +11,11 @@ using namespace std;
 int dx[4] = {0, 0, -1, 1};
 int dy[4] = {-1, 1, 0, 0};
 
-int main(void)
+int main()
 {
-    //freopen("destroywall.txt", "r", stdin);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int N, M;
 
     cin >> N >> M;
@@ -22,9 +26,10 @@ int main(void)
     {
         string str;
         cin >> str;
+
         for (int j = 0; j < M; j++)
         {
-            board[i][j] = str[j] == '1' ? 1 : 0;
+            board[i][j] = str[j] - '0';
         }
     }
 
@@ -35,12 +40,12 @@ int main(void)
 
     while (!q.empty())
     {
-        auto [x, y, depth, wall] = q.front();
+        auto [x, y, time, destruct] = q.front();
         q.pop();
 
         if (x == N - 1 && y == M - 1)
         {
-            cout << depth << endl;
+            cout << time << endl;
             return 0;
         }
 
@@ -51,36 +56,16 @@ int main(void)
 
             if (nx >= 0 && nx < N && ny >= 0 && ny < M)
             {
-                // if (!visited[nx][ny][wall])
-                // {
-                //     if (board[nx][ny] == 1)
-                //     {
-                //         if (wall == 1)
-                //         {
-                //             q.push({nx, ny, depth + 1, 0});
-                //             visited[nx][ny][wall] = true;
-                //         }
-                //     }
-                //     else
-                //     {
-                //         q.push({nx, ny, depth + 1, wall});
-                //         visited[nx][ny][0] = true;
-                //     }
-                // }
-
-                if (nx >= 0 && nx < N && ny >= 0 && ny < M)
-                {
-                    if (board[nx][ny] == 0 && !visited[nx][ny][wall])
-                    {
-                        visited[nx][ny][wall] = true;
-                        q.push({nx, ny, depth + 1, wall});
-                    }
-                    else if (board[nx][ny] == 1 && wall == 1 && !visited[nx][ny][0])
-                    {
-                        visited[nx][ny][0] = true;
-                        q.push({nx, ny, depth + 1, 0});
-                    }
-                }
+               if(board[nx][ny] == 0 && !visited[nx][ny][destruct])
+               {
+                    visited[nx][ny][destruct] = true;
+                    q.push({nx, ny, time + 1, destruct});
+               }
+               else if(board[nx][ny] == 1 && destruct == 1 && !visited[nx][ny][0])
+               {
+                    visited[nx][ny][0] = true;
+                    q.push({nx, ny, time + 1, 0});
+               }
             }
         }
     }
