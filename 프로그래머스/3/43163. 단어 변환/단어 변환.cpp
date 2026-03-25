@@ -1,31 +1,37 @@
+// 프로그래머스 - 단어 변환
+// https://school.programmers.co.kr/learn/courses/30/lessons/43163
+
 #include <string>
 #include <vector>
-#include <iostream>
 #include <queue>
-
+#include <unordered_map>
 
 using namespace std;
 
-bool compare(string a, string b)
+int compare(const string& a, const string& b)
 {
-    int same_count = 0;
-
-    for (int i = 0; i < a.size(); i++)
+    int different = 0;
+    for(int i = 0; i < a.size(); i++)
     {
-        if (a[i] == b[i])
+        if(a[i] != b[i])
         {
-            same_count++;
+            different++;
         }
     }
 
-    return same_count == a.size() - 1;
+    return different;
 }
 
 int solution(string begin, string target, vector<string> words)
 {
     int answer = 0;
 
-    vector<bool> visited(words.size(), false);
+    unordered_map<string, bool> visited;
+
+    for(string str : words)
+    {
+        visited.insert({str, false});
+    }
 
     queue<pair<string, int>> q;
 
@@ -33,22 +39,23 @@ int solution(string begin, string target, vector<string> words)
 
     while(!q.empty())
     {
-        string str = q.front().first;
-        int count = q.front().second;
+        auto [word, count] = q.front();
+        q.pop();
 
-        if(str == target)
+        if(word == target)
         {
-            return count;
+            answer = count;
         }
 
-        q.pop();
-    
-        for(int i = 0; i < words.size(); i++)
+        for(auto& [next_word, isVisited] : visited)
         {
-            if(compare(str, words[i]) && !visited[i])
+            if(!isVisited)
             {
-                q.push({words[i], count + 1});
-                visited[i] = true;
+                if(compare(word, next_word) == 1)
+                {
+                    isVisited = true;
+                    q.push({next_word, count + 1});
+                }
             }
         }
     }
