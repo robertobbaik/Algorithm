@@ -1,6 +1,10 @@
+// 프로그래머스 - 게임 맵 최단거리
+// https://school.programmers.co.kr/learn/courses/30/lessons/1844
+
+#include <string>
 #include <vector>
-#include <iostream>
 #include <queue>
+#include <tuple>
 
 using namespace std;
 
@@ -11,38 +15,36 @@ int solution(vector<vector<int>> maps)
 {
     int answer = -1;
 
-    int limitx = maps[0].size();
-    int limity = maps.size();
-    vector<vector<bool>> visited(limity, vector<bool>(limitx, false));
-    queue<vector<int>> vq;
+    int n = maps.size();
+    int m = maps[0].size();
 
-    vq.push({0, 0, 1});
+    queue<tuple<int, int, int>> q;
+    vector<vector<bool>> visited(n, vector<bool>(m, false));
+    q.push({0, 0, 1});
     visited[0][0] = true;
-    while (!vq.empty())
-    {
-        int x = vq.front()[1];
-        int y = vq.front()[0];
-        int count = vq.front()[2];
 
-        if (x == limitx -1  && y == limity - 1)
+    while (!q.empty())
+    {
+        auto [x, y, t] = q.front();
+        q.pop();
+
+        if (x == n - 1 && y == m - 1)
         {
-            // cout << count << endl;
-            return count;
+            answer = t;
+            return answer;
         }
 
-        vq.pop();
-
-        for (int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if (nx >= 0 && nx < limitx && ny >= 0 && ny < limity)
+            if(nx >= 0 && nx < n && ny >= 0 && ny < m)
             {
-                if (maps[ny][nx] == 1 && !visited[ny][nx])
+                if(!visited[nx][ny] && maps[nx][ny] == 1)
                 {
-                    visited[ny][nx] = true;
-                    vq.push({ny, nx, count + 1});
+                    visited[nx][ny] = true;
+                    q.push({nx, ny, t + 1});
                 }
             }
         }
