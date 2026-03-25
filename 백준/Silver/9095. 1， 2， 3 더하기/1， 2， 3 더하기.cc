@@ -1,31 +1,38 @@
+// BOJ #9095 - 1, 2, 3 더하기
+// https://www.acmicpc.net/problem/9095
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
 
 using namespace std;
 
 int main()
 {
-	int T;
-	cin >> T;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	vector<int> dp(11);
+    int T;
+    cin >> T;
 
-	dp[0] = 0;
-	dp[1] = 1;
-	dp[2] = 2;
-	dp[3] = 4;
+    vector<int> dp(12);
 
-	for(int i = 4; i < 11; i++)
-	{
-		dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1];
-	}
+    dp[1] = 1;
+    dp[2] = 2;
+    dp[3] = 4;
+    dp[4] = 7;
 
-	while(T--)
-	{
-		int n;
-		cin >> n;
-		cout << dp[n] << '\n';
-	}
-	return 0;
+    for (int i = 5; i < 12; i++)
+    {
+        dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1];
+    }
+
+    while (T--)
+    {
+        int n;
+        cin >> n;
+
+        cout << dp[n] << endl;
+    }
+
+    return 0;
 }
