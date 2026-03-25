@@ -1,3 +1,6 @@
+// 프로그래머스 - 타겟 넘버
+// https://school.programmers.co.kr/learn/courses/30/lessons/43165
+
 #include <string>
 #include <vector>
 #include <queue>
@@ -12,25 +15,22 @@ int solution(vector<int> numbers, int target)
 
     q.push({0, 0});
 
-    while (!q.empty())
+    while(!q.empty())
     {
-        int sum = q.front().first;
-        int index = q.front().second;
-
+        auto [num, depth] = q.front();
         q.pop();
 
-        if (index == numbers.size())
+        if(depth == numbers.size())
         {
-            if (sum == target)
+            if(num == target)
             {
                 answer++;
             }
+            continue;
         }
-        else
-        {
-            q.push({sum + numbers[index], index + 1});
-            q.push({sum - numbers[index], index + 1});
-        }
+
+        q.push({num + numbers[depth], depth + 1});
+        q.push({num - numbers[depth], depth + 1});
     }
 
     return answer;
