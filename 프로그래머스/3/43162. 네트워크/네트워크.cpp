@@ -1,17 +1,19 @@
+// 프로그래머스 - 네트워크
+// https://school.programmers.co.kr/learn/courses/30/lessons/43162
+
 #include <string>
 #include <vector>
 
 using namespace std;
 
-void dfs(const vector<vector<int>> graph, vector<bool> &visited, int start)
+void dfs(vector<vector<int>>& computers, int n, vector<bool>& visited, int next)
 {
-    visited[start] = true;
-
-    for (int n : graph[start])
+    for(int i = 0; i < n; i++)
     {
-        if (!visited[n])
+        if(computers[next][i] == 1 && !visited[i])
         {
-            dfs(graph, visited, n);
+            visited[i] = true;
+            dfs(computers, n, visited, i);
         }
     }
 }
@@ -20,29 +22,15 @@ int solution(int n, vector<vector<int>> computers)
 {
     int answer = 0;
 
-    vector<vector<int>> graph(n);
     vector<bool> visited(n, false);
 
-    for (int i = 0; i < computers.size(); i++)
+    for(int i = 0; i < n; i++)
     {
-        for (int j = 0; j < computers[i].size(); j++)
+        if(!visited[i])
         {
-            if (i == j)
-                continue;
-
-            if (computers[i][j] == 1)
-            {
-                graph[i].push_back(j);
-            }
-        }
-    }
-
-    for (int i = 0; i < n; i++)
-    {
-        if (!visited[i])
-        {
+            visited[i] = true;
             answer++;
-            dfs(graph, visited, i);
+            dfs(computers, n, visited, i);
         }
     }
 
