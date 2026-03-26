@@ -1,34 +1,32 @@
+// BOJ #11659 - 구간 합 구하기 4
+// https://www.acmicpc.net/problem/11659
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("addrange.txt", "r", stdin);
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    int M, N;
 
-    cin >> M >> N;
+    int N, M;
+    cin >> N >> M;
 
-    vector<int> v(M + 1, 0);
-    vector<int> prefix(M + 1, 0);
-
-    for (int i = 1; i <= M; i++)
+    vector<int> arr(N + 1, 0);
+    vector<int> dp(N + 1, 0);
+    for(int i = 1; i <= N; i++)
     {
-        cin >> v[i];
-        prefix[i] = prefix[i - 1] + v[i];
+        cin >> arr[i];
+        dp[i] = dp[i - 1] + arr[i];
     }
 
-    vector<pair<int, int>> commands(N);
-
-    for (int i = 0; i < N; i++)
+    while(M--)
     {
-        int start, end;
-        cin >> start >> end;
+        int a, b;
 
-        cout << prefix[end] - prefix[start - 1] << "\n";
+        cin >> a >> b;
+
+        cout << dp[b] - dp[a - 1] << "\n";
     }
 
     return 0;
