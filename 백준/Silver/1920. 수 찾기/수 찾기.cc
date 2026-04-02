@@ -1,45 +1,46 @@
+// BOJ #1920 - 수 찾기
+// https://www.acmicpc.net/problem/1920
 #include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("findnum.txt", "r", stdin);
-    ios::sync_with_stdio(false); // 입출력 속도 개선
-    cin.tie(nullptr);    
-    int N;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
+    int N;
     cin >> N;
 
-    vector<int> A(N);
+    unordered_set<int> us;
 
-    for (int i = 0; i < N; i++)
+    for(int i = 0; i < N; i++)
     {
-        cin >> A[i];
-    }
+        int num;
+        cin >> num;
 
-    sort(A.begin(), A.end());
+        us.insert(num);
+    }
 
     int M;
 
     cin >> M;
 
-    for (int i = 0; i < M; i++)
+    for(int i = 0; i < M; i++)
     {
-        int n;
-        cin >> n;
-
-        bool has_num = binary_search(A.begin(), A.end(), n);
-
-        if(has_num)
+        int num;
+        cin >> num;
+        if(us.find(num) == us.end())
         {
-            cout << 1 << '\n';
+            cout << 0 << '\n';
         }
         else
         {
-            cout << 0 << '\n';
+            cout << 1 << '\n';
         }
     }
 
