@@ -1,46 +1,48 @@
+// BOJ #2805 - 나무 자르기
+// https://www.acmicpc.net/problem/2805
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
 
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //freopen("tree.txt", "r", stdin);
 
     int N, M;
+
     cin >> N >> M;
-    vector<int> tree(N, 0);
+
+    vector<int> arr(N);
 
     for (int i = 0; i < N; i++)
     {
-        cin >> tree[i];
+        cin >> arr[i];
     }
 
-    int left = 0;
+    long long left = 1;
+    long long right = *max_element(arr.begin(), arr.end());
+    long long answer = 0;
 
-    int right = *max_element(tree.begin(), tree.end());
-    int answer = 0;
-
-    while(left <= right)
+    while (left <= right)
     {
-        int mid = (left + right) / 2;
-        long long remainder = 0;
+        long long len = 0;
+        long long mid = (left + right) / 2;
 
-        for(int i = 0; i < N; i++)
+        for (int i = 0; i < N; i++)
         {
-            if(tree[i] > mid)
+            if (arr[i] > mid)
             {
-                remainder += tree[i] - mid;
+                len += arr[i] - mid;
             }
         }
 
-        if(remainder >= M)
+        if (len >= M)
         {
             answer = mid;
             left = mid + 1;
+            
         }
         else
         {
