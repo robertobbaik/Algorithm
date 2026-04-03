@@ -1,43 +1,46 @@
+// BOJ #10816 - 숫자 카드 2
+// https://www.acmicpc.net/problem/10816
 #include <iostream>
-#include <vector>
 #include <unordered_map>
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("numcard.txt", "r", stdin);
-    int N;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
+    int N;
     cin >> N;
-    vector<int> cards(N);
+
+    unordered_map<int, int> um;
+
     for(int i = 0; i < N; i++)
     {
-        cin >> cards[i];
+        int num;
+        cin >> num;
+
+        um[num]++;
     }
 
     int M;
+
     cin >> M;
-    vector<int> cards2(M);
-    unordered_map<int, int> m;
-    for(int i = 0; i < M; i++)
-    {
-        int n;
-        cin >> n;
-        cards2[i] = n;
-    }
-
-    for(int i = 0; i < N; i++)
-    {
-        m[cards[i]]++;
-    }
 
     for(int i = 0; i < M; i++)
     {
-        cout << m[cards2[i]] << " ";
+        int num;
+        cin >> num;
+
+        if(um.find(num) != um.end())
+        {
+            cout << um[num] << " ";
+        }
+        else
+        {
+            cout << 0 << " ";
+        }
     }
-
-
 
     return 0;
 }
