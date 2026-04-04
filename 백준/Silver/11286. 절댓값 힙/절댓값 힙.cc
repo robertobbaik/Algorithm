@@ -1,39 +1,51 @@
+// BOJ #11286 - 절댓값 힙
+// https://www.acmicpc.net/problem/11286
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <queue>
-
 using namespace std;
 
-int main(void)
+struct compare
 {
-    //freopen("absheap.txt", "r", stdin);
-    int N;
+    bool operator()(int a, int b)
+    {
+        if(abs(a) == abs(b))
+        {
+            return a > b;
+        }
+        return abs(a) > abs(b);
+    }
+};
 
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int N;
     cin >> N;
 
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    priority_queue<int, vector<int>, compare> pq;
 
-    for (int i = 0; i < N; i++)
+    for(int i = 0; i < N; i++)
     {
-        int n;
-        cin >> n;
+        int num;
+        cin >> num;
 
-        if (n == 0)
+        if(num == 0)
         {
-            if (!pq.empty())
+            if(!pq.empty())
             {
-                cout << pq.top().second << "\n";
+                cout << pq.top() << '\n';
                 pq.pop();
             }
             else
             {
-                cout << 0 << "\n";
+                cout << 0 << '\n';
             }
         }
         else
         {
-            pq.push({abs(n), n});
+            pq.push(num);
         }
     }
 
