@@ -1,48 +1,50 @@
+// BOJ #2110 - 공유기 설치
+// https://www.acmicpc.net/problem/2110
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-int main(void)
+int main()
 {
-    //freopen("Aggressivecows.txt", "r", stdin);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int N, C;
-
     cin >> N >> C;
-
-    vector<int> x(N, 0);
+    vector<int> arr(N);
 
     for (int i = 0; i < N; i++)
     {
-        cin >> x[i];
+        cin >> arr[i];
     }
 
-    sort(x.begin(), x.end());
+    sort(arr.begin(), arr.end());
 
     int left = 1;
-    int right = x[N - 1] - x[0];
-    int result = 0;
+    int right = arr[N - 1] - arr[0];
+    int mindis = 0;
+
     while (left <= right)
     {
         int mid = (left + right) / 2;
-
-        int c = 1;
-        int last = x[0];
+        
+        int count = 1;
+        int last = arr[0];
 
         for (int i = 1; i < N; i++)
         {
-            if (x[i] - last >= mid)
+            if (arr[i] - last >= mid)
             {
-                c++;
-                last = x[i];
+                count++;
+                last = arr[i];
             }
         }
 
-        if (c >= C)
+        if (count >= C)
         {
-            result = mid;
+            mindis = mid;
             left = mid + 1;
         }
         else
@@ -51,7 +53,7 @@ int main(void)
         }
     }
 
-    cout << result << endl;
+    cout << mindis << endl;
 
     return 0;
 }
