@@ -1,40 +1,41 @@
+// BOJ #11279 - 최대 힙
+// https://www.acmicpc.net/problem/11279
 #include <iostream>
-#include <vector>
 #include <queue>
 
 using namespace std;
 
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //freopen("maxheap.txt", "r", stdin);
 
-    priority_queue<int> q;
+    priority_queue<int> pq;
 
     int N;
+
     cin >> N;
 
-    for(int i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)
     {
         int num;
         cin >> num;
 
-        if(num == 0)
+        if (num == 0)
         {
-            if(!q.empty())
+            if (!pq.empty())
             {
-                cout << q.top() << "\n";
-                q.pop();
+                cout << pq.top() << '\n';
+                pq.pop();
             }
             else
             {
-                cout << 0 << "\n";
+                cout << 0 << '\n';
             }
         }
         else
         {
-            q.push(num);
+            pq.push(num);
         }
     }
 
