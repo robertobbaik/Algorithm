@@ -1,7 +1,10 @@
+// 프로그래머스 - 더 맵게
+// https://school.programmers.co.kr/learn/courses/30/lessons/42626
+
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <queue>
+#include <iostream>
 
 using namespace std;
 
@@ -16,26 +19,26 @@ int solution(vector<int> scoville, int K)
         pq.push(scoville[i]);
     }
 
-    if (pq.top() == 0)
+    while (pq.size() >= 2 && pq.top() < K)
     {
-        return -1;
-    }
-
-    while (pq.size() > 1 && pq.top() < K)
-    {
-        answer++;
         int a = pq.top();
         pq.pop();
         int b = pq.top();
         pq.pop();
 
-        int n = a + (b * 2);
+        pq.push(a + (b * 2));
 
-        pq.push(n);
+        answer++;
     }
 
-    if (pq.top() >= K)
+    if(pq.top() >= K)
+    {
         return answer;
+    }
     else
+    {
         return -1;
+    }
+
+    return -1;
 }
