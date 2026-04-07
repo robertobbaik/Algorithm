@@ -1,78 +1,62 @@
+// BOJ #11404 - 플로이드
+// https://www.acmicpc.net/problem/11404
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <algorithm>
 #include <climits>
 
 using namespace std;
 
-vector<int> dijkstra(const vector<vector<pair<int, int>>> &graph, int start, int n)
-{
-    vector<int> distance(n + 1, INT_MAX);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-
-    distance[start] = 0;
-    pq.push({0, start});
-
-    while (!pq.empty())
-    {
-        auto [currentDistance, currentNode] = pq.top();
-        pq.pop();
-
-        if (distance[currentNode] < currentDistance)
-            continue;
-
-        for (auto [neighborNode, nextDistance] : graph[currentNode])
-        {
-            int newDistance = currentDistance + nextDistance;
-
-            if (distance[neighborNode] > newDistance)
-            {
-                distance[neighborNode] = newDistance;
-                pq.push({newDistance, neighborNode});
-            }
-        }
-    }
-
-    return distance;
-}
-
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //freopen("floyd.txt", "r", stdin);
 
-    int n, m;
+    int n;
+    cin >> n;
 
-    cin >> n >> m;
+    int m;
+    cin >> m;
 
-    vector<vector<pair<int, int>>> graph(n + 1);
+    const int INF = 1e9;
+    vector<vector<int>> dist(n + 1, vector<int>(n + 1, INF));
+
+    for (int i = 0; i < n + 1; i++)
+    {
+        dist[i][i] = 0;
+    }
 
     for (int i = 0; i < m; i++)
     {
-        int s, e, c;
-        cin >> s >> e >> c;
+        int a, b, c;
+        cin >> a >> b >> c;
 
-        graph[s].push_back({e, c});
+        dist[a][b] = min(dist[a][b], c);
     }
 
-    vector<vector<int>> result;
-
-    for (int i = 1; i < n + 1; i++)
+    for (int k = 0; k < n + 1; k++)
     {
-        vector<int> result = dijkstra(graph, i, n);
-        for (int j = 1; j <= n; j++)
+        for (int i = 0; i < n + 1; i++)
         {
-            if (result[j] == INT_MAX)
+            for (int j = 0; j < n + 1; j++)
             {
-                cout << 0 << " ";
-            }
-            else
-            {
-                cout << result[j] << " ";
+                if (dist[i][k] != INF && dist[k][j] != INF)
+                {
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
             }
         }
-        cout << "\n";
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            cout << (dist[i][j] == INF ? 0 : dist[i][j]);
+            if (j < n)
+                cout << ' ';
+        }
+        cout << '\n';
     }
 
     return 0;
