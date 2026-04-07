@@ -1,37 +1,36 @@
+// BOJ #1916 - 최소비용 구하기
+// https://www.acmicpc.net/problem/1916
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <climits>
+#include <queue>
 
 using namespace std;
 
-int main(void)
+int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //freopen("dijkstra.txt", "r", stdin);
 
     int N, M;
 
     cin >> N >> M;
 
     vector<vector<pair<int, int>>> graph(N + 1);
+    vector<int> distance(N + 1, INT_MAX);
 
     for (int i = 0; i < M; i++)
     {
-        int s, e, c;
+        int u, v, w;
+        cin >> u >> v >> w;
 
-        cin >> s >> e >> c;
-
-        graph[s].push_back({e, c});
+        graph[u].push_back({v, w});
     }
 
     int start, end;
     cin >> start >> end;
 
-    vector<int> distance(N + 1, INT_MAX);
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-
     pq.push({0, start});
     distance[start] = 0;
 
@@ -40,21 +39,25 @@ int main(void)
         auto [currentDistance, currentNode] = pq.top();
         pq.pop();
 
-        if(distance[currentNode] < currentDistance) continue;
-
-        for(auto [neigborNode, cost] : graph[currentNode])
+        if(distance[currentNode] < currentDistance)
         {
-            int newDistance = currentDistance + cost;
+            continue;
+        }
 
-            if(distance[neigborNode] > newDistance)
+        for(auto [neighborNode, cost] : graph[currentNode])
+        {
+            int newDistance = distance[currentNode] + cost;
+
+            if(newDistance < distance[neighborNode])
             {
-                distance[neigborNode] = newDistance;
-                pq.push({newDistance, neigborNode});
+                distance[neighborNode] = newDistance;
+                pq.push({newDistance, neighborNode});
             }
         }
     }
 
     cout << distance[end] << endl;
+    
 
     return 0;
 }
