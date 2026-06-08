@@ -1,55 +1,32 @@
+// 프로그래머스 - 최댓값과 최솟값
+// https://school.programmers.co.kr/learn/courses/30/lessons/12939
+
 #include <string>
+#include <sstream>
 #include <vector>
 #include <algorithm>
-#include <iostream>
+#include <climits>
 
 using namespace std;
 
-string solution(string s) {
-       vector<int> v;
-    string answer;
+string solution(string s)
+{
+    string answer = "";
 
-    bool isNegative = false;
-    string temp = "";
-    for (int i = 0; i < s.size(); ++i)
+    stringstream ss(s);
+
+    int num;
+
+    int min_num = INT_MAX;
+    int max_num = INT_MIN;
+
+    while(ss >> num)
     {
-        if (s[i] == ' ')
-        {
-            int num = stoi(temp);
-            if (isNegative)
-            {
-                num *= -1;
-                isNegative = false;
-            }
-
-            v.push_back(num);
-            temp = "";
-        }
-        else if (s[i] == '-')
-        {
-            isNegative = true;
-        }
-        else if (i == s.size() - 1)
-        {   
-            temp += s[i];
-            int num = stoi(temp);
-            if (isNegative)
-            {
-                num *= -1;
-                isNegative = false;
-            }
-
-            v.push_back(num);
-        }
-        else
-        {
-            temp += s[i];
-        }
+        min_num = min(min_num, num);
+        max_num = max(max_num, num);
     }
 
-    int min = *min_element(v.begin(), v.end());
-    int max = *max_element(v.begin(), v.end());
+    answer = to_string(min_num) + " " + to_string(max_num);
 
-    answer = to_string(min) + " " + to_string(max);
     return answer;
 }
