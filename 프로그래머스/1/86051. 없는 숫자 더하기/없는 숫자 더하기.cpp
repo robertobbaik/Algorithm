@@ -3,21 +3,20 @@
 
 using namespace std;
 
-int solution(vector<int> numbers) {
-    
-    int tempArr[10] = {0,};
-
-    
-    for(int i = 0; i < numbers.size(); i++)
-    {
-        tempArr[numbers[i]] = numbers[i];    
-    }
-    
+int solution(vector<int> numbers)
+{
     int answer = 0;
-    
-    for(int i = 0; i < 10; i++)
+
+    vector<int> arr(10, 0);
+
+    for(int n : numbers)
     {
-        if(tempArr[i] == 0)
+        arr[n]++;
+    }
+
+    for(int i = 0; i < arr.size(); i++)
+    {
+        if(arr[i] == 0)
         {
             answer += i;
         }
