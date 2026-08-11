@@ -1,52 +1,63 @@
-#include <iostream>
-#include <unordered_map>
-#include <set>
+#include <string>
 #include <vector>
+#include <string>
+#include <map>
+#include <set>
+#include <sstream>
+
 using namespace std;
 
-vector<int> solution(vector<string> id_list, vector<string> report, int k) {
-    set<string> reportset;
+vector<string> splitBySpace(const string &text)
+{
+    vector<string> result;
+    string token;
+    stringstream stream(text);
+
+    while (stream >> token)
+    {
+        result.push_back(token);
+    }
+
+    return result;
+}
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k)
+{
     vector<int> answer;
 
-    unordered_map<string, int> reportCount;
-    unordered_map<string, set<string>> privatereport;
+    map<string, set<string>> report_list; // key 피신고자, set 신고자
+    map<string, int> reported_count; // Key 피신고자, int 신고당한 횟수
+    map<string, int> report_count;
 
-    for(const string& plaint : report)
+    for(string s : report)
     {
-        int blank = plaint.find(' ');
-        string complainant = plaint.substr(0, blank);
-        string defendant = plaint.substr(blank + 1, plaint.size() - blank);
+        vector<string> v = splitBySpace(s);
 
-        privatereport[complainant].insert(defendant);
+        report_list[v[1]].insert(v[0]);
     }
 
-    for(auto p : privatereport)
+    for(string s : id_list)
     {
-        for (auto a : p.second)
-        {
-            ++reportCount[a];
-        }
+       reported_count[s] = report_list[s].size();
     }
 
-    for(auto temp : reportCount)
+    for(string s : id_list)
     {
-        if(temp.second >= k)
+        if(reported_count[s] >= k)
         {
-            reportset.insert(temp.first);
-        }
-    }
-
-    for(const string& name : id_list)
-    {
-        int reportCount = 0;
-        for(const string& temp : privatereport[name])
-        {
-            if(reportset.count(temp))
+            for(string ss : report_list[s])
             {
-                ++reportCount;
+                report_count[ss]++;
             }
         }
-        answer.push_back(reportCount);
     }
+
+    for(string s : id_list)
+    {
+        answer.push_back(report_count[s]);
+    }
+
+    
+    
     return answer;
 }
