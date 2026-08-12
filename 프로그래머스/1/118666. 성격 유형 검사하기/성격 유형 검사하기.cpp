@@ -1,74 +1,44 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
-string solution(vector<string> survey, vector<int> choices) {
+string solution(vector<string> survey, vector<int> choices)
+{
     string answer = "";
 
-    unordered_map<char, int> results = 
-    {
-        {'R', 0},
-        {'T', 0},
-        {'C', 0},
-        {'F', 0},
-        {'J', 0},
-        {'M', 0},
-        {'A', 0},
-        {'N', 0},
-    };
+    unordered_map<char, int> um;
+    vector<string> group = {"RT", "CF", "JM", "AN"};
 
-    for(int i = 0; i < survey.size(); i++)
+    for (int i = 0; i < survey.size(); i++)
     {
-        if(choices[i] < 4)
+        int score = choices[i];
+
+        if (score > 4)
         {
-            int result = 4 - choices[i];
-            char a = survey[i][0];
-            results[a] += result;
+            um[survey[i][1]] += score - 4;
+        }
+        else if (score < 4)
+        {
+            um[survey[i][0]] += 4 - score;
+        }
+    }
+
+    for(string s : group)
+    {
+        if(um[s[0]] == um[s[1]])
+        {
+            sort(s.begin(), s.end());
+            answer += s[0];
         }
         else
         {
-            int result = choices[i] - 4;
-            char a = survey[i][1];
-            results[a] += result;
+            char c = um[s[0]] > um[s[1]] ? s[0] : s[1];
+            answer += c;
         }
     }
 
-    if(results['R'] >= results['T'])
-    {
-        answer += 'R';
-    }
-    else
-    {
-        answer += 'T';
-    }
-
-    if(results['C'] >= results['F'])
-    {
-        answer += 'C';
-    }
-    else
-    {
-        answer += 'F';
-    }
-
-    if(results['J'] >= results['M'])
-    {
-        answer += 'J';
-    }
-    else
-    {
-        answer += 'M';
-    }
-
-    if(results['A'] >= results['N'])
-    {
-        answer += 'A';
-    }
-    else
-    {
-        answer += 'N';
-    }
     return answer;
 }
