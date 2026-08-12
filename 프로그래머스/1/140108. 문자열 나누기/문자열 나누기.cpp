@@ -3,45 +3,36 @@
 
 using namespace std;
 
-int solution(string s) {
+int solution(string s)
+{
     int answer = 0;
-    
-    int sNum = 0;
-    int tempNum = 0;
-    int tempChar = '0';
-    
-    for(int i = 0; i < s.size(); i++)
+
+    int len = 0;
+    int diff = 0;
+    char prev = ' ';
+    for (char c : s)
     {
-        if(tempChar == '0')
+        if (prev == ' ')
         {
-            tempChar = s[i];
-            sNum++;
+            prev = c;
+            len = 1;
+
+            answer++;
         }
-         else if(tempChar == s[i])
+        else if (prev == c)
         {
-            sNum++;
+            len++;
         }
-        else if(tempChar != s[i])
+        else
         {
-            tempNum++;
-           
-        }
-        
-         if(sNum == tempNum)
+            diff++;
+            if (len == diff)
             {
-                answer++;
-                tempChar = '0';
-                tempNum = 0;
-                sNum = 0;
+                len = 0;
+                diff = 0;
+                prev = ' ';
             }
-      
+        }
     }
-    
-    if(tempChar != '0')
-    {
-        answer++;
-    }
-    
-    
     return answer;
 }
