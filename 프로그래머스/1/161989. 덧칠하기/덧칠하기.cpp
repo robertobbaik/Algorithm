@@ -3,17 +3,29 @@
 
 using namespace std;
 
-int solution(int n, int m, vector<int> section) {
-    int answer = 1;
-    int prev = section[0] + m;
-    
-    for(int i = 0; i < section.size(); i++)
+int solution(int n, int m, vector<int> section)
+{
+    int answer = 0;
+
+    vector<bool> wall(n + 1, true);
+
+    for (int i = 0; i < section.size(); i++)
     {
-        if(section[i] >= prev)
+        wall[section[i]] = false;
+    }
+
+    for (int num : section)
+    {
+        if (!wall[num])
         {
             answer++;
-            prev = section[i] + m;
+            for (int i = 0; i < m; i++)
+            {
+                if(num + i > n) break;
+                wall[num + i] = true;
+            }
         }
     }
+
     return answer;
 }
