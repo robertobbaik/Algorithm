@@ -1,7 +1,3 @@
-// 프로그래머스 - 게임 맵 최단거리
-// https://school.programmers.co.kr/learn/courses/30/lessons/1844
-
-#include <string>
 #include <vector>
 #include <queue>
 #include <tuple>
@@ -18,20 +14,24 @@ int solution(vector<vector<int>> maps)
     int n = maps.size();
     int m = maps[0].size();
 
-    queue<tuple<int, int, int>> q;
     vector<vector<bool>> visited(n, vector<bool>(m, false));
-    q.push({0, 0, 1});
+
+    queue<tuple<int, int, int>> q;
+
     visited[0][0] = true;
+    q.push({0, 0, 1});
 
     while (!q.empty())
     {
-        auto [x, y, t] = q.front();
+        auto [x, y, d] = q.front();
         q.pop();
 
-        if (x == n - 1 && y == m - 1)
+        
+
+        if(x == n - 1 && y == m - 1)
         {
-            answer = t;
-            return answer;
+            answer = d;
+            break;
         }
 
         for(int i = 0; i < 4; i++)
@@ -44,7 +44,7 @@ int solution(vector<vector<int>> maps)
                 if(!visited[nx][ny] && maps[nx][ny] == 1)
                 {
                     visited[nx][ny] = true;
-                    q.push({nx, ny, t + 1});
+                    q.push({nx,ny, d + 1});
                 }
             }
         }
