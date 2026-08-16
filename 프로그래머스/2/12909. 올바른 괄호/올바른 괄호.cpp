@@ -10,30 +10,31 @@ bool solution(string s)
 
     stack<char> st;
 
-    for(char c : s)
+    for (char c : s)
     {
-        if(c == '(')
+        if (c == '(')
         {
             st.push(c);
         }
-        else if(c == ')')
+        else
         {
-            if(st.empty())
-            {
-                return false;
-            }
-            else
+            if (!st.empty())
             {
                 st.pop();
             }
+            else
+            {
+                answer = false;
+                break;
+            }
+
         }
     }
 
-    if(!st.empty())
+    if (answer)
     {
-        return false;
+        answer = st.empty();
     }
-    
 
     return answer;
 }
