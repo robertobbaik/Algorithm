@@ -3,21 +3,23 @@
 
 using namespace std;
 
-long long solution(int n) {
+long long solution(int n)
+{
     long long answer = 0;
 
-    int a = 0;
-    int b = 1;
-    int temp = 1;
-    
-    for(int i = 1; i <= n; ++i)
+    vector<long long> dp(n + 1);
+
+    dp[0] = 1;
+
+    if(n >= 1)
     {
-        temp = (a + b) % 1234567;
-        a = b % 1234567;
-        b = temp % 1234567;
+        dp[1] = 1;
     }
 
-    answer = temp;
+    for(int i = 2; i <= n; i++)
+    {
+        dp[i] = (dp[i - 1] + dp[i-2]) % 1234567;
+    }
 
-    return answer;
+    return dp[n];
 }
