@@ -1,9 +1,6 @@
-// 프로그래머스 - 최댓값과 최솟값
-// https://school.programmers.co.kr/learn/courses/30/lessons/12939
-
 #include <string>
-#include <sstream>
 #include <vector>
+#include <sstream>
 #include <algorithm>
 #include <climits>
 
@@ -15,10 +12,10 @@ string solution(string s)
 
     stringstream ss(s);
 
-    int num;
-
     int min_num = INT_MAX;
     int max_num = INT_MIN;
+
+    int num;
 
     while(ss >> num)
     {
@@ -28,5 +25,7 @@ string solution(string s)
 
     answer = to_string(min_num) + " " + to_string(max_num);
 
+    
+    
     return answer;
 }
