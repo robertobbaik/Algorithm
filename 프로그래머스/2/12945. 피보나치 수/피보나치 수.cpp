@@ -3,28 +3,20 @@
 
 using namespace std;
 
-int solution(int n) {
-       int answer = 0;
-    int m = 1234567;
-    vector<int> fibonacci(n + 1, 0);
+int solution(int n)
+{
+    int answer = 0;
 
-    if (n > 2)
+    vector<int> dp(n + 1);
+
+    dp[0] = 0;
+    dp[1] = 1;
+
+    for(int i = 2; i < n + 1; i++)
     {
-        fibonacci[0] = 0;
-        fibonacci[1] = 1;
-
-        for (int i = 2; i <= n; ++i)
-        {
-            fibonacci[i] = (fibonacci[i - 2]  + fibonacci[i - 1]) % m;
-        }
-
-        answer = fibonacci[n];
-    }
-    else
-    {
-        answer = n;
+        dp[i] = (dp[i - 2] + dp[i - 1]) % 1234567;
     }
 
-    
+    answer = dp[n];
     return answer;
 }
