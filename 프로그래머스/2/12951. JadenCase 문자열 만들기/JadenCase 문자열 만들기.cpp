@@ -3,23 +3,39 @@
 
 using namespace std;
 
-string solution(string s)
-{
-    string answer = "";
+string solution(string s) {
+   string answer = "";
+    bool isUppercase = true;
 
-    answer += toupper(s[0]);
-
-    for(int i = 1; i < s.size(); i++)
+    for (int i = 0; i < s.size(); ++i)
     {
-        if(s[i - 1] == ' ')
+        if (s[i] == ' ')
         {
-            answer += toupper(s[i]);
+            isUppercase = true;
         }
-        else
+        else if ((int)s[i] < 65)
         {
-            answer += tolower(s[i]);
+            isUppercase = false;
+        }
+        else if ((int)s[i] >= 65 && (int)s[i] < 97)
+        {
+            if(!isUppercase)
+            {
+                s[i] = (char)((int)s[i] + 32);
+            }
+            else
+            {
+                isUppercase = false;
+            }
+            
+        }
+        else if ((int)s[i] > 96 && isUppercase)
+        {
+            s[i] = (char)((int)s[i] - 32);
+            isUppercase = false;
         }
     }
+    answer = s;
 
     return answer;
 }
