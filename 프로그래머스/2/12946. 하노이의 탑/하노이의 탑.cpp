@@ -3,9 +3,9 @@
 
 using namespace std;
 
-void hanoi(int n, int from, int to, int aux, vector<vector<int>> &result)
+void hanoi(int n, int from, int to, int aux, vector<vector<int>>& result)
 {
-    if (n == 1)
+    if(n == 1)
     {
         result.push_back({from, to});
         return;
