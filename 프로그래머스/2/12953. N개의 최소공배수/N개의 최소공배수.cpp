@@ -1,18 +1,12 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int rcd(int a, int b)
+int gcd(int a, int b)
 {
-    if(a < b)
-    {
-        int temp = a;
-        a = b;
-        b = temp;
-    }
-
-    while (b)
+    while(b)
     {
         int r = a % b;
         a = b;
@@ -22,20 +16,27 @@ int rcd(int a, int b)
     return a;
 }
 
-int ldm(int a, int b)
+int lcm(int a, int b)
 {
-    int result = a * b / rcd(a, b);
-
-    return result;
+    return a * b / gcd(max(a, b), min(a, b));
 }
 
-int solution(vector<int> arr) {
-    int answer = arr[0];
+int solution(vector<int> arr)
+{
+    int answer = 0;
 
-    for(int i = 1; i < arr.size(); ++i)
+    sort(arr.rbegin(), arr.rend());
+
+    vector<int> dp(arr.size());
+
+    dp[0] = arr[0];
+
+    for(int i = 1; i < arr.size(); i++)
     {
-        answer = ldm(arr[i], answer);
+        dp[i] = lcm(dp[i-1], arr[i]);
     }
-    
+
+    answer = dp[arr.size() - 1];
+
     return answer;
 }
