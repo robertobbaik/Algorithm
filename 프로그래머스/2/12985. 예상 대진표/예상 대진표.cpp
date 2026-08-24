@@ -5,24 +5,17 @@ using namespace std;
 int solution(int n, int a, int b)
 {
     int answer = 0;
-    int round = 0;
 
-    while (true)
+    while(a != b)
     {
-        ++round;
-        ++a;
-        ++b;
-
+        a += 1;
         a /= 2;
+
+        b += 1;
         b /= 2;
 
-        if (a == b)
-        {
-            answer = round;
-            break;
-        }
+        answer++;
     }
 
     return answer;
-
 }
