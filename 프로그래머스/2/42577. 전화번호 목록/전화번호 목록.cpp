@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 bool solution(vector<string> phone_book)
 {
     bool answer = true;
@@ -12,10 +13,9 @@ bool solution(vector<string> phone_book)
 
     for(int i = 1; i < phone_book.size(); i++)
     {
-        string temp = phone_book[i - 1];
-        if(phone_book[i].substr(0, temp.size()) == temp)
+        if(phone_book[i - 1] == phone_book[i].substr(0, phone_book[i - 1].size()))
         {
-            answer = false;
+            return false;
         }
     }
 
