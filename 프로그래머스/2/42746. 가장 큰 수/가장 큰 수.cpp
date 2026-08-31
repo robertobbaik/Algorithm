@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool compare(string a, string b)
+bool compare(const string& a, const string& b)
 {
     return a + b > b + a;
 }
@@ -13,21 +13,25 @@ string solution(vector<int> numbers)
 {
     string answer = "";
 
-    vector<string> v;
+    vector<string> arr;
 
-    for(int num : numbers)
+    for(int i = 0; i < numbers.size(); i++)
     {
-        v.push_back(to_string(num));
+        arr.push_back(to_string(numbers[i]));
     }
 
-    sort(v.begin(), v.end(), compare);
+    sort(arr.begin(), arr.end(), compare);
 
-    for(string s : v)
+    for(string str : arr)
     {
-        answer += s;
+        answer += str;
     }
 
-    if(answer[0] =='0') return "0";
+    if(answer[0] == '0')
+    {
+        answer = "0";
+    }
+
 
     return answer;
 }
