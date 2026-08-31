@@ -1,10 +1,6 @@
-// 프로그래머스 - 더 맵게
-// https://school.programmers.co.kr/learn/courses/30/lessons/42626
-
 #include <string>
 #include <vector>
 #include <queue>
-#include <iostream>
 
 using namespace std;
 
@@ -14,9 +10,9 @@ int solution(vector<int> scoville, int K)
 
     priority_queue<int, vector<int>, greater<int>> pq;
 
-    for (int i = 0; i < scoville.size(); i++)
+    for (int n : scoville)
     {
-        pq.push(scoville[i]);
+        pq.push(n);
     }
 
     while (pq.size() >= 2 && pq.top() < K)
@@ -27,11 +23,10 @@ int solution(vector<int> scoville, int K)
         pq.pop();
 
         pq.push(a + (b * 2));
-
         answer++;
     }
 
-    if(pq.top() >= K)
+    if (pq.top() >= K)
     {
         return answer;
     }
