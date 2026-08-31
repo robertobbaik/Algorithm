@@ -1,6 +1,3 @@
-// 프로그래머스 - H-Index
-// https://school.programmers.co.kr/learn/courses/30/lessons/42747
-
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -11,17 +8,13 @@ int solution(vector<int> citations)
 {
     int answer = 0;
 
-    sort(citations.rbegin(), citations.rend()); // [6,5,3,1,0]
+    sort(citations.begin(), citations.end());
 
-    for (int i = 0; i < citations.size(); ++i)
+    for(int i = 0; i < citations.size(); i++)
     {
-        if (citations[i] >= i + 1)
+        if(citations[i] >= citations.size() - i)
         {
-            answer = i + 1;
-        }
-        else
-        {
-            break;
+            return citations.size() - i;
         }
     }
 
