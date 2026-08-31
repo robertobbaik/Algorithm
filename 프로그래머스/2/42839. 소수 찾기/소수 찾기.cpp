@@ -1,63 +1,66 @@
 #include <string>
 #include <vector>
-#include <cmath>
-#include <set>
 #include <algorithm>
-
+#include <unordered_set>
 
 using namespace std;
 
-bool isPrime(int num)
+bool isPrime(int n)
 {
-    if (num < 2)
-        return false;
-    if (num == 2)
-        return true;
-    if (num % 2 == 0)
-        return false;
-
-    for (int i = 3; i <= sqrt(num); i += 2)
+    if (n < 2)
     {
-        if (num % i == 0)
+        return false;
+    }
+
+    if (n == 2)
+    {
+        return true;
+    }
+
+    if (n % 2 == 0)
+    {
+        return false;
+    }
+
+    for (int i = 3; i * i <= n; i += 2)
+    {
+        if (n % i == 0)
         {
             return false;
         }
     }
+
     return true;
 }
 
 int solution(string numbers)
 {
-    set<int> numSet;
+    int answer = 0;
 
-    vector<char> digits(numbers.begin(), numbers.end());
+    unordered_set<int> us;
 
-    for (int len = 1; len <= numbers.length(); len++)
+    sort(numbers.begin(), numbers.end());
+    do
     {
-        vector<char> temp = digits;
-        sort(temp.begin(), temp.end());
+        string temp;
 
-        do
+        for (char c : numbers)
         {
-            string numStr = "";
-            for (int i = 0; i < len; i++)
-            {
-                numStr += temp[i];
-            }
+            temp += c;
+            int n = stoi(temp);
 
-            int num = stoi(numStr);
-            numSet.insert(num);
-        } while (next_permutation(temp.begin(), temp.end()));
-    }
+            us.insert(n);
+        }
+        temp = "";
+    } while (next_permutation(numbers.begin(), numbers.end()));
 
-    int primeCount = 0;
-    for (int num : numSet)
+    for(int n : us)
     {
-        if (isPrime(num))
+        if(isPrime(n))
         {
-            primeCount++;
+            answer++;
         }
     }
 
-    return primeCount;
+    return answer;
 }
