@@ -1,9 +1,5 @@
-// 프로그래머스 - 카펫
-// https://school.programmers.co.kr/learn/courses/30/lessons/42842
-
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -13,23 +9,28 @@ vector<int> solution(int brown, int yellow)
 
     int total = brown + yellow;
 
-    int minVal = 2;
+    
 
-    for(int i = minVal; i < total / minVal; i++)
+    for(int row = 3; row < brown; row++)
     {
-        if(total % i == 0)
+        if(total % row != 0)
         {
-            int w = total / i;
-            int tempBrown = 2 * w + 2 * (i - 2);
+            continue;
+        }
 
-            if(tempBrown == brown)
-            {
-                answer.push_back(total / i);
-                answer.push_back(i);
-                break;
-            }
+        int col = total / row;
+
+        if(row * 2 + (col - 2) * 2 == brown)
+        {
+            answer.push_back(col);
+            answer.push_back(row);
+            return answer;
         }
     }
 
+
+    
+
     return answer;
 }
+
