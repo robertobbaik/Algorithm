@@ -1,34 +1,27 @@
 #include <string>
 #include <vector>
-#include <stack>
 
 using namespace std;
+
 string solution(string number, int k)
 {
     string answer = "";
-    stack<char> s;
-
-    int count = k;
-
+    
     for(char c : number)
     {
-        while(!s.empty() && s.top() < c && count > 0)
+        while(!answer.empty() && k > 0 && answer.back() < c)
         {
-            s.pop();
-            count--;
+            answer.pop_back();
+            k--;
         }
-        s.push(c);
+    
+        answer.push_back(c);
     }
 
-    while(count > 0)
+    if(k > 0)
     {
-        s.pop();
-        count--;
+        answer.erase(answer.size() - k);
     }
 
-    while (!s.empty()) {
-        answer = s.top() + answer;
-        s.pop();
-    }
     return answer;
 }
