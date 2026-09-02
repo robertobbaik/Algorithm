@@ -10,31 +10,26 @@ using namespace std;
 int solution(vector<int> people, int limit)
 {
     int answer = 0;
-    vector<bool> leave(people.size(), false);
+
+    int left = 0;
+    int right = people.size() - 1;
 
     sort(people.rbegin(), people.rend());
 
-    int right = people.size() - 1;
-
-    for(int i = 0; i < people.size(); i++)
+    while(left <= right)
     {
-        if(leave[i]) continue;
-
-        if(people[i] + people[right] <= limit)
+        if(people[left] + people[right] <= limit)
         {
-            leave[i] = true;
-            leave[right] = true;
             answer++;
+            left++;
             right--;
         }
         else
         {
-            leave[i] = true;
             answer++;
+            left++;
         }
     }
-    
-    
 
     return answer;
 }
